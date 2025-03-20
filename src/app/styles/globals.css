@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fondo negro general */
+.rifa-container {
+  background-color: #000;
+  padding: 30px;
+  text-align: center;
+  color: white;
+}
+
+/* Contenedor de opciones rápidas */
+.rifa-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px; /* Espacio para la opción manual */
+}
+
+/* Estilo de tarjetas para las opciones rápidas */
+.rifa-options button {
+  background-color: #111; /* Fondo oscuro */
+  border: 2px solid #ff1a1a; /* Borde rojo */
+  border-radius: 10px;
+  padding: 15px 25px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3);
+}
+
+.rifa-options button:hover {
+  background-color: #222;
+  transform: scale(1.05);
+}
+
+/* Mantiene la opción manual debajo de las otras */
+.cantidad-libre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Estilo del input de cantidad manual */
+.cantidad-libre label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.cantidad-libre input {
+  width: 100px;
+  padding: 8px;
+  font-size: 1rem;
+  border: 2px solid #ff1a1a;
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+}
+
+/* Botón para la compra manual */
+.cantidad-libre button {
+  margin-top: 10px;
+  background-color: #ff1a1a;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.cantidad-libre button:hover {
+  background-color: #d40000;
+}
+
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #111;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.modal-content h3 {
+  color: #ff1a1a;
+  margin-bottom: 15px;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ff1a1a;
+  background-color: #222;
+  color: #fff;
+  border-radius: 5px;
+}
+
+/* Botones del modal */
+.confirmar-compra, .cerrar-modal {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+.confirmar-compra {
+  background-color: #ff1a1a;
+  color: white;
+}
+
+.confirmar-compra:hover {
+  background-color: #d40000;
+}
+
+.cerrar-modal {
+  background-color: #333;
+  color: white;
+}
+
+.cerrar-modal:hover {
+  background-color: #555;
+}
+
+/* Errores */
+.error {
+  color: #ff1a1a;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+
+
+
+
+
+footer {
+  width: 100%;
+  margin-top: 2.5rem;
+  text-align: center;
+  background-color: #000; /* Fondo negro */
+  color: #fff; /* Texto blanco */
+  padding: 1rem;
+  font-family: 'Poppins', sans-serif; /* Fuente moderna */
+}
+
+
+
+
+
+footer {
+  width: 100%;
+  margin-top: 2.5rem;
+  text-align: center;
+  background-color: #000; /* Fondo negro */
+  color: #fff; /* Texto blanco */
+  padding: 1rem;
+  font-family: 'Poppins', sans-serif; /* Fuente moderna */
+}
+
+footer p {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ddd; /* Color gris claro */
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+  gap: 1rem;
+}
+
+/* Enlaces sin subrayado */
+a {
+  text-decoration: none; /* Quita la línea debajo */
+}
+
+.whatsapp-link {
+  color: #25D366; /* Verde WhatsApp */
+  font-weight: 600;
+  transition: color 0.3s ease-in-out;
+}
+
+.whatsapp-link:hover {
+  color: #1EBE5D; /* Verde más oscuro */
+}
+
+.instagram-link {
+  color: #E4405F; /* Rosa Instagram */
+  font-weight: 600;
+  transition: color 0.3s ease-in-out;
+}
+
+.instagram-link:hover {
+  color: #D13550; /* Rosa más oscuro */
+}
