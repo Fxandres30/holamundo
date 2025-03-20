@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import '../styles/globals.css';
 
 export default function Rifa() {
@@ -15,11 +15,17 @@ export default function Rifa() {
     });
     const [errores, setErrores] = useState<{ [key: string]: string }>({});
 
-    const precioUnitario = 500;
+    const precioUnitario = 100;
     const precioTotal = cantidad * precioUnitario;
 
-    const cantidadMinima = 5;
+    const cantidadMinima = 1;
     const cantidadMaxima = 300;
+
+    useEffect(() => {
+        if (!modalAbierto) {
+            setErrores({});
+        }
+    }, [modalAbierto]);
 
     const validarFormulario = () => {
         let nuevosErrores: { [key: string]: string } = {}; 
@@ -53,11 +59,11 @@ export default function Rifa() {
         setCantidad(nuevaCantidad);
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
         if (validarFormulario()) {
             try {
-                const response = await fetch("/api/mercadopago", {
-
+                const response = await fetch("/api/mercadopago", { 
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -67,14 +73,15 @@ export default function Rifa() {
                         nombre: formData.nombre,
                         correo: formData.correo,
                         telefono: formData.telefono,
-                        precioUnitario: 500,
+                        precioUnitario: 100,
                     }),
                 });
-    
+
                 const data = await response.json();
                 
                 if (data.init_point) {
-                    window.location.href = data.init_point; // Redirige a Mercado Pago
+                    cerrarModal(); // Cerrar modal antes de redirigir
+                    window.location.href = data.init_point; 
                 } else {
                     console.error("Error al obtener el link de pago", data);
                 }
@@ -88,7 +95,7 @@ export default function Rifa() {
         <section id="rifa" className="rifa-container">
             <h2 className="rifa-title">Elige La Cantidad</h2>
             <div className="rifa-options">
-                {[5, 10, 25, 50, 90, 120].map((num) => (
+                {[2, 10, 25, 50, 90, 120].map((num) => (
                     <button key={num} className="rifa-button" onClick={() => { setCantidad(num); abrirModal(); }}>
                         Comprar {num} boletos
                     </button>
@@ -111,7 +118,7 @@ export default function Rifa() {
                 <div className="modal">
                     <div className="modal-content">
                         <h3>Verificación de Datos</h3>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             {Object.keys(formData).map((campo) => (
                                 <div key={campo}>
                                     <label>{campo.charAt(0).toUpperCase() + campo.slice(1)}</label>
@@ -124,10 +131,10 @@ export default function Rifa() {
                                     {errores[campo] && <p className="error">{errores[campo]}</p>}
                                 </div>
                             ))}
+                            <p>Total a pagar: ${precioTotal.toLocaleString()} COP</p>
+                            <button type="submit" className="confirmar-compra">Confirmar Compra</button>
+                            <button type="button" onClick={cerrarModal} className="cerrar-modal">Cerrar</button>
                         </form>
-                        <p>Total a pagar: ${precioTotal.toLocaleString()} COP</p>
-                        <button onClick={handleSubmit} className="confirmar-compra">Confirmar Compra</button>
-                        <button onClick={cerrarModal} className="cerrar-modal">Cerrar</button>
                     </div>
                 </div>
             )}

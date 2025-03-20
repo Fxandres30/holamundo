@@ -9,8 +9,10 @@ mercadopago.configure({
 export async function POST(req: Request) {
   try {
     const { cantidad, correo } = await req.json();
-    const precioUnitario = 1000; // Precio de un boleto (ajústalo según necesites)
+    const precioUnitario = 100; // 100 COP por boleto
     const total = cantidad * precioUnitario;
+
+    console.log("Generando pago para:", cantidad, "boletos | Total:", total);
 
     const preference = await mercadopago.preferences.create({
       items: [
@@ -28,13 +30,19 @@ export async function POST(req: Request) {
         pending: "https://tudominio.com/pendiente",
       },
       auto_return: "approved",
+      payment_methods: {
+        excluded_payment_methods: [], // Permitir todos los métodos de pago
+        excluded_payment_types: [], // Permitir todos los tipos de pago
+        installments: 1 // Permitir solo una cuota (puedes ajustarlo)
+      },
     });
+
+    console.log("Preferencia generada: ", preference.body);
 
     return NextResponse.json({ success: true, init_point: preference.body.init_point });
 
   } catch (error) {
-    console.error("Error en Mercado Pago:", error);
-    return NextResponse.json({ success: false, error: "Error en el pago" }, { status: 500 });
+    console.error("Error al obtener el link de pago:", error);
+    return NextResponse.json({ success: false, message: "Error al generar el pago" }, { status: 500 });
   }
-}
-
+} 
