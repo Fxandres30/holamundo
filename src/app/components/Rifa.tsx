@@ -3,7 +3,7 @@ import { useState } from "react";
 import '../styles/globals.css';
 
 export default function Rifa() {
-    const [cantidad, setCantidad] = useState(3);
+    const [cantidad, setCantidad] = useState(5);
     const [modalAbierto, setModalAbierto] = useState(false);
     const [formData, setFormData] = useState({
         nombre: "",
@@ -15,11 +15,11 @@ export default function Rifa() {
     });
     const [errores, setErrores] = useState<{ [key: string]: string }>({});
 
-    const precioUnitario = 1000;
+    const precioUnitario = 500;
     const precioTotal = cantidad * precioUnitario;
 
-    const cantidadMinima = 3;
-    const cantidadMaxima = 500;
+    const cantidadMinima = 5;
+    const cantidadMaxima = 300;
 
     const validarFormulario = () => {
         let nuevosErrores: { [key: string]: string } = {}; 
@@ -67,7 +67,7 @@ export default function Rifa() {
                         nombre: formData.nombre,
                         correo: formData.correo,
                         telefono: formData.telefono,
-                        precioUnitario: 1000,
+                        precioUnitario: 500,
                     }),
                 });
     
@@ -88,7 +88,7 @@ export default function Rifa() {
         <section id="rifa" className="rifa-container">
             <h2 className="rifa-title">Elige La Cantidad</h2>
             <div className="rifa-options">
-                {[3, 5, 10, 25, 50, 90].map((num) => (
+                {[5, 10, 25, 50, 90, 120].map((num) => (
                     <button key={num} className="rifa-button" onClick={() => { setCantidad(num); abrirModal(); }}>
                         Comprar {num} boletos
                     </button>

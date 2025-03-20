@@ -30,7 +30,8 @@ export async function POST(req: Request) {
       auto_return: "approved",
     });
 
-    return NextResponse.json({ success: true, url: preference.body.init_point });
+    return NextResponse.json({ success: true, init_point: preference.body.init_point });
+
   } catch (error) {
     console.error("Error en Mercado Pago:", error);
     return NextResponse.json({ success: false, error: "Error en el pago" }, { status: 500 });
