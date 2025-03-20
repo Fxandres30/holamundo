@@ -46,8 +46,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, init_point: preference.body.init_point });
 
-  } catch (error: any) {
-    console.error("❌ Error al obtener el link de pago:", error.message || error);
+  } catch (error) {
+    console.error("❌ Error al obtener el link de pago:", error instanceof Error ? error.message : error);
     return NextResponse.json(
       { success: false, message: "Error al generar el pago" },
       { status: 500 }
