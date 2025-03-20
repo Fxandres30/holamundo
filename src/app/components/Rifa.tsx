@@ -28,7 +28,7 @@ export default function Rifa() {
     }, [modalAbierto]);
 
     const validarFormulario = () => {
-        let nuevosErrores: { [key: string]: string } = {}; 
+        const nuevosErrores: { [key: string]: string } = {}; 
 
         if (!formData.nombre.trim()) nuevosErrores.nombre = "El nombre es obligatorio";
         if (!formData.apellidos.trim()) nuevosErrores.apellidos = "Los apellidos son obligatorios";
