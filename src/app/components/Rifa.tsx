@@ -15,10 +15,10 @@ export default function Rifa() {
     });
     const [errores, setErrores] = useState<{ [key: string]: string }>({});
 
-    const precioUnitario = 100;
+    const precioUnitario = 1500;
     const precioTotal = cantidad * precioUnitario;
 
-    const cantidadMinima = 1;
+    const cantidadMinima = 10;
     const cantidadMaxima = 300;
 
     useEffect(() => {
@@ -95,7 +95,7 @@ export default function Rifa() {
         <section id="rifa" className="rifa-container">
             <h2 className="rifa-title">Eligir Cantidad</h2>
             <div className="rifa-options">
-                {[2, 10, 25, 50, 90, 120].map((num) => (
+                {[10, 15, 30, 50, 90, 120].map((num) => (
                     <button key={num} className="rifa-button" onClick={() => { setCantidad(num); abrirModal(); }}>
                         Comprar {num} boletos
                     </button>
