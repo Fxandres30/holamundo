@@ -41,7 +41,7 @@ html, body {
   background-color: #222;
   color: white;
   text-align: center;
-  padding: 15px;
+  padding: 1px;
 }
 
 /* Contenedor de la imagen */
@@ -62,7 +62,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px 0; /* Espaciado extra para separar del footer */
+  padding: 20px 0; /* Espaciado extra para separar del footer */
 }
 
 /* Footer siempre abajo */
@@ -70,7 +70,7 @@ html, body {
   background-color: #222;
   color: white;
   text-align: center;
-  padding: 15px 0;
+  padding: 9px 0;
   width: 100%;
   margin-top: auto; /* Empuja el footer al fondo */
 }
@@ -79,6 +79,7 @@ html, body {
 .contact-info a {
   color: white;
   text-decoration: none;
+  margin-top: 10px;
 }
 
 .contact-info a:hover {
@@ -89,13 +90,13 @@ html, body {
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 18px;
+  gap: 5px;
   margin-top: 10px;
 }
 
 /* Estilos de los íconos */
 .icon {
-  font-size: 28px;
+  font-size: 18px;
   transition: transform 0.3s ease-in-out;
 }
 
@@ -158,7 +159,7 @@ html, body {
   width: 100%;
 }
 
-.cantidad-libre label { 
+.cantidad-libre label {
   font-size: 1rem;
   font-weight: bold; 
 }
@@ -170,7 +171,13 @@ html, body {
   text-align: center;
   border: 2px solid #007bff;
   border-radius: 6px;
+  border: 1px solid #ccc;
   outline: none;
+  transition: 0.2s;
+}
+
+.cantidad-libre input:focus {
+  border-color: #007bff;
 }
 
 /* Fondo del modal */
@@ -323,7 +330,7 @@ html, body {
 .cantidad-libre input:focus {
   border-color: #007bff;
 }
-
+ 
 /* Animación de entrada */
 @keyframes fadeIn {
   from {
