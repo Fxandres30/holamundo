@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const precioUnitario = 100;
+    const precioUnitario = 1500;
     const total = cantidad * precioUnitario;
 
     console.log("✅ Recibida solicitud de pago:", { cantidad, correo, total });
