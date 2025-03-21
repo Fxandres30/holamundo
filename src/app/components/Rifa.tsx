@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import '../styles/globals.css';
 
 export default function Rifa() {
-    const [cantidad, setCantidad] = useState(10);
+    const [cantidad, setCantidad] = useState(100);
     const [modalAbierto, setModalAbierto] = useState(false);
     const [formData, setFormData] = useState({
         nombre: "",
