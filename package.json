@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.21",
-    "mercadopago": "^1.0.0",
+    "mercadopago": "^2.3.0",
     "next": "15.2.3",
     "postcss": "^8.5.3",
     "react": "^18.2.0",
