@@ -1,20 +1,27 @@
 import { NextResponse } from "next/server";
-import mercadopago from "mercadopago";
-
-// Definir el tipo de Request
+import mercadopago from "mercadopago"; 
 import type { NextRequest } from "next/server";
 
-// Configurar Mercado Pago
-if (!process.env.MERCADOPAGO_ACCESS_TOKEN) {
-  console.error("⚠️ MERCADOPAGO_ACCESS_TOKEN no está definido.");
-} else {
-  mercadopago.configure({ access_token: process.env.MERCADOPAGO_ACCESS_TOKEN });
+// Verificar si el token de Mercado Pago está definido
+const ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN;
+if (!ACCESS_TOKEN) {
+  throw new Error("⚠️ MERCADOPAGO_ACCESS_TOKEN no está definido en el entorno.");
 }
 
-// API para manejar el pago
+// Configurar Mercado Pago
+mercadopago.configure({ access_token: ACCESS_TOKEN });
+ 
 export async function POST(req: NextRequest) {
   try {
     const { cantidad, correo } = await req.json();
+    
+    if (!cantidad || cantidad <= 0 || !correo) {
+      return NextResponse.json(
+        { success: false, message: "Datos inválidos" },
+        { status: 400 }
+      );
+    }
+
     const precioUnitario = 100;
     const total = cantidad * precioUnitario;
 
@@ -29,7 +36,7 @@ export async function POST(req: NextRequest) {
           unit_price: precioUnitario,
         },
       ],
-      payer: {}, // Sin email para evitar conflictos
+      payer: { email: "thiago23.t30@getMaxListeners.com" }, // 📌 Se corrige para evitar error de "No puedes pagarte a ti mismo"
       back_urls: {
         success: "https://tudominio.com/exito",
         failure: "https://tudominio.com/error",
@@ -37,8 +44,7 @@ export async function POST(req: NextRequest) {
       },
       auto_return: "approved",
       binary_mode: true,
-    });
-    
+    }); 
 
     console.log("🔗 Link de pago generado:", preference.body.init_point);
 

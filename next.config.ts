@@ -1,10 +1,5 @@
 const nextConfig = { 
-  output: "standalone",
-  turbo: {
-    experimental: {
-      externalDir: true, // Habilita la carga de paquetes externos
-    },
-  },
+  output: "standalone", 
 };
 
 export default nextConfig;
