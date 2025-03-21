@@ -1,22 +1,24 @@
 import { NextResponse } from "next/server";
 import mercadopago from "mercadopago";
 
-// Verificar que la variable de entorno no esté vacía
+// Definir el tipo de Request
+import type { NextRequest } from "next/server";
+
+// Configurar Mercado Pago
 if (!process.env.MERCADOPAGO_ACCESS_TOKEN) {
-  console.error("⚠️ Error: MERCADOPAGO_ACCESS_TOKEN no está definido.");
+  console.error("⚠️ MERCADOPAGO_ACCESS_TOKEN no está definido.");
 } else {
-  mercadopago.configure({
-    access_token: process.env.MERCADOPAGO_ACCESS_TOKEN,
-  });
+  mercadopago.configure({ access_token: process.env.MERCADOPAGO_ACCESS_TOKEN });
 }
 
-export async function POST(req: Request) {
+// API para manejar el pago
+export async function POST(req: NextRequest) {
   try {
     const { cantidad, correo } = await req.json();
-    const precioUnitario = 100; // Precio por boleto en COP
+    const precioUnitario = 100;
     const total = cantidad * precioUnitario;
 
-    console.log("🛒 Generando pago para:", cantidad, "boletos | Total:", total);
+    console.log("✅ Recibida solicitud de pago:", { cantidad, correo, total });
 
     const preference = await mercadopago.preferences.create({
       items: [
@@ -34,23 +36,29 @@ export async function POST(req: Request) {
         pending: "https://tudominio.com/pendiente",
       },
       auto_return: "approved",
-      payment_methods: {
-        excluded_payment_methods: [],
-        excluded_payment_types: [],
-        installments: 5, // Permitir solo una cuota
-      },
-      binary_mode: true, // Habilita pagos solo con confirmación automática (reduce el riesgo de reCAPTCHA)
+      binary_mode: true,
     });
 
-    console.log("✅ Preferencia generada: ", preference.body);
+    console.log("🔗 Link de pago generado:", preference.body.init_point);
 
     return NextResponse.json({ success: true, init_point: preference.body.init_point });
 
   } catch (error) {
-    console.error("❌ Error al obtener el link de pago:", error instanceof Error ? error.message : error);
+    console.error("❌ Error al generar el pago:", error);
     return NextResponse.json(
       { success: false, message: "Error al generar el pago" },
       { status: 500 }
     );
   }
+}
+
+// Habilitar CORS en TypeScript
+export async function OPTIONS() {
+  return NextResponse.json({}, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    }
+  });
 }
