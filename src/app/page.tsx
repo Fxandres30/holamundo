@@ -1,6 +1,7 @@
 import Rifa from "./components/Rifa";// Asegúrate de que la ruta sea correcta
 
 import './styles/globals.css';
+import { FaWhatsapp, FaInstagram } from "react-icons/fa"; // Asegúrate de importar los íconos
  
 
 export default function Home() {
@@ -16,16 +17,20 @@ export default function Home() {
                 <Rifa />  {/* Aquí se muestra el contenido principal */}
             </main>
             
-            <footer className="w-full mt-10 text-center bg-black text-white p-4">
-              <p className="text-sm sm:text-base">
-                📧 <a href="mailto:ventas@inversionesefaat.com" className="hover:underline">ventas@inversionesefaat.com</a> 
-                 | 📞 <a href="tel:3014123951" className="hover:underline">3154160126</a>
-              </p>
-                  <div className="flex justify-center mt-2 space-x-4">
-                     <a href="#" className="whatsapp-link">💬WhatsApp</a>
-                     <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="instagram-link">📷Instagram</a>
-                 </div>
-           </footer>
+            <footer className="footer">
+      <p className="contact-info">
+        📧 <a href="mailto:ventas@inversionesefaat.com">ventas@inversionesefaat.com</a> 
+        | 📞 <a href="tel:3154160126">3154160126</a>
+      </p>
+      <div className="social-icons">
+        <a href="#" className="icon whatsapp">
+          <FaWhatsapp />
+        </a>
+        <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="icon instagram">
+          <FaInstagram />
+        </a>
+      </div>
+    </footer>
      </div>
     );
 }

@@ -97,7 +97,7 @@ body {
 .cantidad-libre button {
   margin-top: 10px;
   background-color: #ff1a1a;
-  color: #fff;
+  color: #1b0808;
   border: none;
   padding: 12px 25px;
   font-size: 1rem;
@@ -108,7 +108,7 @@ body {
 }
 
 .cantidad-libre button:hover {
-  background-color: #d40000;
+  background-color: #3900d4;
 }
 
 
@@ -180,7 +180,7 @@ body {
 
 /* Errores */
 .error {
-  color: #ff1a1a;
+  color: #d82b00;
   font-size: 0.9rem;
   margin-top: 5px;
 }
@@ -189,65 +189,52 @@ body {
 
 
 
-
-footer {
-  width: 100%;
-  margin-top: 2.5rem;
+.footer {
+  background-color: #222;
+  color: white;
   text-align: center;
-  background-color: #000; /* Fondo negro */
-  color: #fff; /* Texto blanco */
-  padding: 1rem;
-  font-family: 'Poppins', sans-serif; /* Fuente moderna */
-}
-
-
-
-
-
-footer {
-  width: 100%;
-  margin-top: 2.5rem;
-  text-align: center;
-  background-color: #000; /* Fondo negro */
-  color: #fff; /* Texto blanco */
-  padding: 1rem;
-  font-family: 'Poppins', sans-serif; /* Fuente moderna */
-}
-
-footer p {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #ddd; /* Color gris claro */
-}
-
-.footer-links {
+  padding: 20px 0;
   display: flex;
-  justify-content: center;
-  margin-top: 0.5rem;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 120px;
 }
 
-/* Enlaces sin subrayado */
-a {
-  text-decoration: none; /* Quita la línea debajo */
+.contact-info {
+  font-size: 14px;
+  margin-bottom: 10px;
 }
 
-.whatsapp-link {
-  color: #25D366; /* Verde WhatsApp */
-  font-weight: 600;
-  transition: color 0.3s ease-in-out;
+.contact-info a {
+  color: white;
+  text-decoration: none;
 }
 
-.whatsapp-link:hover {
-  color: #1EBE5D; /* Verde más oscuro */
+.contact-info a:hover {
+  text-decoration: underline;
 }
 
-.instagram-link {
-  color: #E4405F; /* Rosa Instagram */
-  font-weight: 600;
-  transition: color 0.3s ease-in-out;
+.social-icons {
+  display: flex;
+  gap: 20px;
 }
 
-.instagram-link:hover {
-  color: #D13550; /* Rosa más oscuro */
+.icon {
+  font-size: 28px;
+  transition: transform 0.3s ease-in-out;
 }
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+.whatsapp {
+  color: #25D366;
+}
+
+.instagram {
+  color: #E4405F;
+}
+
+ 
