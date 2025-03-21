@@ -27,10 +27,7 @@ export default function Home() {
             </main>
 
             <footer className="footer">
-                <p className="contact-info">
-                    📧 <a href="mailto:ventas@inversionesefaat.com">ventas@inversionesefaat.com</a> ｜ 
-                    📞 <a href="tel:3154160126">3154160126</a>
-                </p>
+                
                 <div className="social-icons">
                     <a href="#" className="icon whatsapp">
                         <FaWhatsapp />
@@ -45,6 +42,10 @@ export default function Home() {
                         <FaInstagram />
                     </a>
                 </div>
+                <p className="contact-info">
+                    <a href="mailto:ventas@efaat.com">ventas@efaat.com</a> ｜ 
+                    <a href="tel:3154160126">3154160126</a>
+                </p>
             </footer>
         </div>
     );
