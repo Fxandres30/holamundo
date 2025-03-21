@@ -193,12 +193,14 @@ body {
   background-color: #222;
   color: white;
   text-align: center;
-  padding: 5px 0;
+  padding: 18px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 90px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }
 
 .contact-info {
