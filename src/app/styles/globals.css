@@ -52,8 +52,8 @@ body {
 .rifa-options button {
   background-color: #111; /* Fondo oscuro */
   border: 2px solid #ff1a1a; /* Borde rojo */
-  border-radius: 10px;
-  padding: 15px 25px;
+  border-radius: 5px;
+  padding: 10px 25px;
   text-align: center;
   cursor: pointer;
   transition: 0.3s;
@@ -79,14 +79,14 @@ body {
 
 /* Estilo del input de cantidad manual */
 .cantidad-libre label {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: #fff;
 }
 
 .cantidad-libre input {
-  width: 100px;
-  padding: 8px;
+  width: 70px;
+  padding: 5px;
   font-size: 1rem;
   border: 2px solid #ff1a1a;
   background-color: #222;
@@ -99,9 +99,9 @@ body {
 .cantidad-libre button {
   margin-top: 10px;
   background-color: #ff1a1a;
-  color: #1b0808;
+  color: #ffffff;
   border: none;
-  padding: 12px 25px;
+  padding: 8px 25px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
@@ -110,7 +110,7 @@ body {
 }
 
 .cantidad-libre button:hover {
-  background-color: #3900d4;
+  background-color: #403a4e;
 }
 
 
