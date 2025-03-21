@@ -93,7 +93,7 @@ export default function Rifa() {
     
     return (
         <section id="rifa" className="rifa-container">
-            <h2 className="rifa-title">Elige La Cantidad</h2>
+            <h2 className="rifa-title">Eligir Cantidad</h2>
             <div className="rifa-options">
                 {[2, 10, 25, 50, 90, 120].map((num) => (
                     <button key={num} className="rifa-button" onClick={() => { setCantidad(num); abrirModal(); }}>

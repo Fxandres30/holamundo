@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
         failure: "https://tudominio.com/error",
         pending: "https://tudominio.com/pendiente",
       },
-      auto_return: "approved",
+      auto_return: "approved", 
       binary_mode: true,
     }); 
 
