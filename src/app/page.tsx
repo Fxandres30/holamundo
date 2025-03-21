@@ -7,7 +7,7 @@ export default function Home() {
     return (
         <div className="home-container">
             <header className="header">
-                <h1>Bienvenido a Mi Rifa</h1>
+                <h1>Título. Nombre</h1>
             </header>
 
             {/* Contenedor de la imagen */}
