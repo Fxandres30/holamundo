@@ -1,42 +1,51 @@
-import Rifa from "./components/Rifa";// Asegúrate de que la ruta sea correcta 
+import Rifa from "./components/Rifa"; // Asegúrate de que la ruta sea correcta 
+import Image from "next/image"; // Importar correctamente la imagen en Next.js
 import './styles/globals.css';
-import { FaWhatsapp, FaInstagram, FaFacebook, FaTelegram} from "react-icons/fa"; // Asegúrate de importar los íconos
- 
+import { FaWhatsapp, FaInstagram, FaFacebook, FaTelegram } from "react-icons/fa"; // Importar íconos
 
 export default function Home() {
     return (
-        <div>
-            <header>
+        <div className="home-container">
+            <header className="header">
                 <h1>Bienvenido a Mi Rifa</h1>
             </header>
 
-            <div>Imagenes</div>
+            {/* Contenedor de la imagen */}
+            <div className="image-container">
+                <Image 
+                    src="/PS5.jpg" 
+                    alt="Premio del sorteo" 
+                    width={500} 
+                    height={300} 
+                    className="rifa-image"
+                />
+            </div>
 
-            <main>
-                <Rifa />  {/* Aquí se muestra el contenido principal */}
+            {/* Contenido principal separado */}
+            <main className="main-content">
+                <Rifa />
             </main>
-            
-            <footer className="footer">
-               <p className="contact-info">
-                 📧 <a href="mailto:ventas@inversionesefaat.com">ventas@inversionesefaat.com</a> ｜
 
-                 📞 <a href="tel:3154160126">3154160126</a>
-               </p>
-               <div className="social-icons">
-                 <a href="#" className="icon whatsapp">
-                    <FaWhatsapp />
-                 </a>
-                 <a href="#" className="icon facebook">
-                    <FaFacebook />
-                 </a>
-                 <a href="#" className="icon telegram">
-                    <FaTelegram />
-                 </a>
-                 <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="icon instagram">
-                   <FaInstagram />
-                 </a>
-               </div>
-             </footer>
-           </div>
-     );
+            <footer className="footer">
+                <p className="contact-info">
+                    📧 <a href="mailto:ventas@inversionesefaat.com">ventas@inversionesefaat.com</a> ｜ 
+                    📞 <a href="tel:3154160126">3154160126</a>
+                </p>
+                <div className="social-icons">
+                    <a href="#" className="icon whatsapp">
+                        <FaWhatsapp />
+                    </a>
+                    <a href="#" className="icon facebook">
+                        <FaFacebook />
+                    </a>
+                    <a href="#" className="icon telegram">
+                        <FaTelegram />
+                    </a>
+                    <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="icon instagram">
+                        <FaInstagram />
+                    </a>
+                </div>
+            </footer>
+        </div>
+    );
 }

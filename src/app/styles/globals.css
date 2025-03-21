@@ -1,3 +1,4 @@
+/* Importar las fuentes personalizadas */
 @font-face {
   font-family: "Geist Sans";
   src: url("/fonts/Geist-Sans.woff2") format("woff2"),
@@ -14,16 +15,13 @@
   font-style: normal;
 }
 
+/* Variables de fuente */
 :root {
   --font-geist-sans: "Geist Sans", sans-serif;
   --font-geist-mono: "Geist Mono", monospace;
 }
-
-
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #000;
-  color: #fff;
+/* Asegura que la página ocupe toda la pantalla */
+html, body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -31,191 +29,55 @@ body {
   flex-direction: column;
 }
 
-/* Fondo negro general */
-.rifa-container {
-  background-color: #000;
-  padding: 30px;
-  text-align: center;
-  color: white;
-}
-
-/* Contenedor de opciones rápidas */
-.rifa-options {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 20px; /* Espacio para la opción manual */
-}
-
-/* Estilo de tarjetas para las opciones rápidas */
-.rifa-options button {
-  background-color: #111; /* Fondo oscuro */
-  border: 2px solid #ff1a1a; /* Borde rojo */
-  border-radius: 5px;
-  padding: 10px 25px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.3s;
-  color: white;
-  font-size: 1rem;
-  font-weight: bold;
-  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3);
-}
-
-.rifa-options button:hover {
-  background-color: #222;
-  transform: scale(1.05);
-}
-
-/* Mantiene la opción manual debajo de las otras */
-.cantidad-libre {
+/* Contenedor principal que ocupa toda la pantalla */
+.home-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
+  min-height: 100vh; /* Hace que el contenedor principal ocupe toda la altura */
 }
 
-/* Estilo del input de cantidad manual */
-.cantidad-libre label {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #fff;
-}
-
-.cantidad-libre input {
-  width: 70px;
-  padding: 5px;
-  font-size: 1rem;
-  border: 2px solid #ff1a1a;
+/* Encabezado */
+.header {
   background-color: #222;
-  color: #fff;
+  color: white;
   text-align: center;
-  border-radius: 5px;
+  padding: 15px;
 }
 
-/* Botón para la compra manual */
-.cantidad-libre button {
-  margin-top: 10px;
-  background-color: #ff1a1a;
-  color: #ffffff;
-  border: none;
-  padding: 8px 25px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-  border-radius: 5px;
-}
-
-.cantidad-libre button:hover {
-  background-color: #403a4e;
-}
-
-
-/* Modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
+/* Contenedor de la imagen */
+.image-container {
+  display: flex; 
   justify-content: center;
+  padding: 20px 0; /* Espaciado para separar del header */
 }
 
-.modal-content {
-  background-color: #111;
-  padding: 20px;
+/* Imagen de la rifa */
+.rifa-image {
   border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-}
+} 
 
-.modal-content h3 {
-  color: #ff1a1a;
-  margin-bottom: 15px;
-}
-
-.modal-content input {
-  width: 100%;
-  padding: 8px;
-  margin: 5px 0;
-  border: 1px solid #ff1a1a;
-  background-color: #222;
-  color: #fff;
-  border-radius: 5px;
-}
-
-/* Botones del modal */
-.confirmar-compra, .cerrar-modal {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  border-radius: 5px;
-}
-
-.confirmar-compra {
-  background-color: #ff1a1a;
-  color: white;
-}
-
-.confirmar-compra:hover {
-  background-color: #d40000;
-}
-
-.cerrar-modal {
-  background-color: #333;
-  color: white;
-}
-
-.cerrar-modal:hover {
-  background-color: #555;
-}
-
-/* Errores */
-.error {
-  color: #d82b00;
-  font-size: 0.9rem;
-  margin-top: 5px;
-}
-
-
-
-/* Contenedor principal que empuja el footer */
+/* Contenido principal */
 .main-content {
-  flex: 1;  /* Hace que el contenido ocupe el espacio disponible */
+  flex: 1; /* Hace que el contenido principal ocupe el espacio disponible */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0; /* Espaciado extra para separar del footer */
 }
 
-/* Footer SIEMPRE abajo */
+/* Footer siempre abajo */
 .footer {
   background-color: #222;
   color: white;
   text-align: center;
-  padding: 22px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  padding: 15px 0;
   width: 100%;
-  position: relative;
-  bottom: 0;
+  margin-top: auto; /* Empuja el footer al fondo */
 }
 
-.contact-info {
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
+/* Estilos de los enlaces del footer */
 .contact-info a {
-  color: rgb(255, 255, 255);
+  color: white;
   text-decoration: none;
 }
 
@@ -223,11 +85,15 @@ body {
   text-decoration: underline;
 }
 
+/* Íconos sociales alineados */
 .social-icons {
   display: flex;
+  justify-content: center;
   gap: 18px;
+  margin-top: 10px;
 }
 
+/* Estilos de los íconos */
 .icon {
   font-size: 28px;
   transition: transform 0.3s ease-in-out;
@@ -237,21 +103,235 @@ body {
   transform: scale(1.2);
 }
 
-.whatsapp {
-  color: #25D366;
+/* Colores de los íconos */
+.whatsapp { color: #25D366; }
+.facebook { color: #4952cc; }
+.instagram { color: #E4405F; }
+.telegram { color: #189fd4; }
+
+/* Estilos para la sección de compra de boletos */
+.rifa-container {
+  text-align: center;
+  padding: 40px 20px;
+  font-family: var(--font-geist-sans);
 }
 
-.facebook {
-  color: #4952cc;
+.rifa-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 20px;
 }
 
-.instagram {
-  color: #E4405F;
+.rifa-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
-.telegram {
-  color: #189fd4;
+.rifa-button {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.rifa-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
 
- 
+/* La opción de elegir cantidad siempre debajo de las otras */
+.cantidad-libre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.cantidad-libre label { 
+  font-size: 1rem;
+  font-weight: bold; 
+}
+
+.cantidad-libre input {
+  width: 120px;
+  padding: 8px;
+  font-size: 1rem; 
+  text-align: center;
+  border: 2px solid #007bff;
+  border-radius: 6px;
+  outline: none;
+}
+
+/* Fondo del modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Contenedor del modal */
+.modal-content {
+  background: #fff;
+  padding: 22px;
+  border-radius: 10px;
+  width: 340px;
+  text-align: center;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Títulos del modal */
+.modal-content h3 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 1px;
+}
+
+/* Campos de formulario */
+.modal-content label {
+  display: block;
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 1px;
+  color: #444;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.modal-content input:focus {
+  border-color: #007bff;
+}
+
+/* Mensaje de error */
+.error {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: -5px;
+  margin-bottom: 0px;
+}
+
+/* Botón de Confirmar Compra */
+.confirmar-compra {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-top: 10px;
+}
+
+.confirmar-compra:hover {
+  background: #0056b3;
+}
+
+/* Botón de Cerrar */
+.cerrar-modal {
+  width: 40%;
+  padding: 10px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-top: 10px;
+}
+
+.cerrar-modal:hover {
+  background: #c0392b;
+}
+
+/* Botones de opciones de compra */
+.rifa-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin: 5px;
+}
+
+.rifa-button:hover {
+  background: #0056b3;
+}
+
+/* Estilos para la cantidad libre */
+.cantidad-libre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.cantidad-libre label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.cantidad-libre input {
+  width: 100px;
+  text-align: center;
+  font-size: 1rem;
+  padding: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.2s;
+}
+
+.cantidad-libre input:focus {
+  border-color: #007bff;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 
