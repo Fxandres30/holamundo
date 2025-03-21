@@ -15,7 +15,7 @@ export default function Home() {
                 <Image 
                     src="/PS5.jpg" 
                     alt="Premio del sorteo" 
-                    width={500} 
+                    width={400} 
                     height={300} 
                     className="rifa-image"
                 />
