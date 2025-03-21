@@ -1,5 +1,4 @@
-import Rifa from "./components/Rifa";// Asegúrate de que la ruta sea correcta
-
+import Rifa from "./components/Rifa";// Asegúrate de que la ruta sea correcta 
 import './styles/globals.css';
 import { FaWhatsapp, FaInstagram } from "react-icons/fa"; // Asegúrate de importar los íconos
  
@@ -19,7 +18,7 @@ export default function Home() {
             
             <footer className="footer">
       <p className="contact-info">
-        📧 <a href="mailto:ventas@inversionesefaat.com">ventas@inversionesefaat.com</a> 
+        📧 <a href="mailto:ventas@inversionesefaat.com">ventas@inversionesefaat.com</a>   
         | 📞 <a href="tel:3154160126">3154160126</a>
       </p>
       <div className="social-icons">
