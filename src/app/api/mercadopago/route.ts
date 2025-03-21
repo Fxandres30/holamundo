@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
           unit_price: precioUnitario,
         },
       ],
-      payer: { email: correo },
+      payer: {}, // Sin email para evitar conflictos
       back_urls: {
         success: "https://tudominio.com/exito",
         failure: "https://tudominio.com/error",
@@ -38,6 +38,7 @@ export async function POST(req: NextRequest) {
       auto_return: "approved",
       binary_mode: true,
     });
+    
 
     console.log("🔗 Link de pago generado:", preference.body.init_point);
 
