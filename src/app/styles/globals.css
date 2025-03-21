@@ -74,7 +74,13 @@ html, body {
   width: 100%;
   margin-top: auto; /* Empuja el footer al fondo */
 }
+.contact-info {
+  justify-content: center;
+  gap: 0px;
+  margin-top: 10px;
+  font-size: 0.8rem;
 
+}
 /* Estilos de los enlaces del footer */
 .contact-info a {
   color: white;
@@ -90,13 +96,13 @@ html, body {
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 5px;
+  gap: 9px;
   margin-top: 10px;
 }
 
 /* Estilos de los íconos */
 .icon {
-  font-size: 18px;
+  font-size: 22px;
   transition: transform 0.3s ease-in-out;
 }
 
