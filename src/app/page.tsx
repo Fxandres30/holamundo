@@ -1,63 +1,73 @@
-import Rifa from "./components/Rifa"; // Asegúrate de que la ruta sea correcta 
-import Image from "next/image"; // Importar correctamente la imagen en Next.js
-import './styles/globals.css';
-import { FaWhatsapp, FaInstagram, FaFacebook, FaTelegram } from "react-icons/fa"; // Importar ícono
-import ProgressBar from "./api/boletos/ProgressBar";
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { FaWhatsapp, FaInstagram, FaFacebook, FaTelegram } from "react-icons/fa";
+import Rifa from "@/app/components/Rifa";
+import ProgressBar from "@/app/api/boletos/ProgressBar";
+import InfoModal from "@/app/components/InfoModal";
+import '@/app/styles/globals.css';
 
 
 
 export default function Home() {
-    return (
-        <div className="home-container">
-            <header className="header">
-                <div className="image-container">
-                    <Image 
-                        src="/titulo.png" 
-                        width={375} // Ajusta el tamaño según tu imagen
-                        height={100} 
-                        alt="Título"
-                    />
-                </div>
-            </header>
+  const [showInfoModal, setShowInfoModal] = useState(false);
 
-            {/* Contenedor de la imagen */}
-            <div className="image-container">
-                <Image 
-                    src="/PS5.jpg" 
-                    alt="Premio del sorteo" 
-                    width={400} 
-                    height={400} 
-                    className="rifa-image"
-                />
-            </div>
-
-            <ProgressBar />
-
-                <main className="main-content">
-                <Rifa />
-            </main>
-
-            <footer className="footer">
-                
-                <div className="social-icons">
-                    <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="icon whatsapp">
-                        <FaWhatsapp />
-                    </a>
-                    <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="icon facebook">
-                        <FaFacebook />
-                    </a>
-                    <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="icon telegram">
-                        <FaTelegram />
-                    </a>
-                    <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="icon instagram">
-                        <FaInstagram />
-                    </a>
-                </div>
-                <p className="contact-info">
-                    <a href="mailto:ventas@efaat.com">ventas@efaat.com</a> ｜ 
-                    <a href="tel:3154160126">3154160126</a>
-                </p>
-            </footer>
+  return (
+    <div className="home-container">
+      {/* 🔹 Header con logo */}
+      <header className="header">
+        <div className="image-container">
+          <Image src="/titulo.png" width={375} height={100} alt="Título" />
         </div>
-    );
+      </header>
+
+      <h2 className="subtitle">Participa en el sorteo y gana increíbles premios</h2>
+
+      {/* 🔹 Imagen del premio con botón de información */}
+      <div className="image-container">
+        <Image src="/PS5.jpg" alt="Premio del sorteo" width={400} height={400} className="rifa-image" />
+      </div>
+
+      <div>
+        <button className="modal-button" onClick={() => setShowInfoModal(true)}>
+          ℹ️ Más Información del sorteo
+        </button>
+      </div>
+
+      {/* 🔹 Modal de información */}
+      <InfoModal isOpen={showInfoModal} onClose={() => setShowInfoModal(false)} />
+
+      {/* 🔹 Barra de progreso */}
+      <ProgressBar />
+
+      {/* 🔹 Contenido principal */}
+      <main className="main-content">
+        <Rifa />
+      </main>
+
+      {/* 🔹 Footer con redes sociales */}
+      <footer className="footer">
+        <div className="social-icons">
+          <Link href="https://wa.me/3154160126" className="icon whatsapp" target="_blank">
+            <FaWhatsapp />
+          </Link>
+          <Link href="https://www.facebook.com/fxandres30" className="icon facebook" target="_blank">
+            <FaFacebook />
+          </Link>
+          <Link href="https://t.me/fxandres30" className="icon telegram" target="_blank">
+            <FaTelegram />
+          </Link>
+          <Link href="https://www.instagram.com/fxandres30" className="icon instagram" target="_blank">
+            <FaInstagram />
+          </Link>
+        </div>
+        <p className="contact-info">
+          <a href="mailto:ventas@efaat.com">ventas@efaat.com</a> ｜ 
+          <a href="tel:3154160126">3154160126</a>
+        </p>
+      </footer>
+    </div>
+  );
 }
