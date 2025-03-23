@@ -90,7 +90,7 @@ export default function Rifa() {
             }
         }
     };
-    
+
     return (
         <section id="rifa" className="rifa-container">
             <h2 className="rifa-title">Eligir Cantidad</h2>
@@ -113,9 +113,14 @@ export default function Rifa() {
                     {errores.cantidad && <p className="error">{errores.cantidad}</p>}
                 </div>
             </div>
-            
+                
             {modalAbierto && (
-                <div className="modal">
+                <div 
+                    className="modal" 
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) cerrarModal();
+                    }}
+                >
                     <div className="modal-content">
                         <h3>Verificación de Datos</h3>
                         <form onSubmit={handleSubmit}>

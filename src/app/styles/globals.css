@@ -2,7 +2,7 @@
 @font-face {
   font-family: "Geist Sans";
   src: url("/fonts/Geist-Sans.woff2") format("woff2"),
-       url("/fonts/Geist-Sans.woff") format("woff");
+        url("/fonts/Geist-Sans.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -10,7 +10,7 @@
 @font-face {
   font-family: "Geist Mono";
   src: url("/fonts/Geist-Mono.woff2") format("woff2"),
-       url("/fonts/Geist-Mono.woff") format("woff");
+        url("/fonts/Geist-Mono.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }

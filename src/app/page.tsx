@@ -1,7 +1,7 @@
 import Rifa from "./components/Rifa"; // Asegúrate de que la ruta sea correcta 
 import Image from "next/image"; // Importar correctamente la imagen en Next.js
 import './styles/globals.css';
-import { FaWhatsapp, FaInstagram, FaFacebook, FaTelegram } from "react-icons/fa"; // Importar íconos
+import { FaWhatsapp, FaInstagram, FaFacebook, FaTelegram } from "react-icons/fa"; // Importar ícono
 import ProgressBar from "./api/boletos/ProgressBar";
 
 
