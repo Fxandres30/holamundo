@@ -359,7 +359,7 @@ html, body {
 .cantidad-libre input:focus {
   border-color: #007bff;
 }
- 
+
 /* Animación de entrada */
 @keyframes fadeIn {
   from {

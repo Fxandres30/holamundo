@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaWhatsapp, FaInstagram, FaFacebook, FaTelegram } from "react-icons/fa";
-import Rifa from "@/app/components/Rifa";
-import ProgressBar from "@/app/api/boletos/ProgressBar";
+import Rifa from "@/app/components/Rifa"; 
 import InfoModal from "@/app/components/InfoModal";
 import '@/app/styles/globals.css';
 
@@ -38,9 +37,7 @@ export default function Home() {
 
       {/* 🔹 Modal de información */}
       <InfoModal isOpen={showInfoModal} onClose={() => setShowInfoModal(false)} />
-
-      {/* 🔹 Barra de progreso */}
-      <ProgressBar />
+  
 
       {/* 🔹 Contenido principal */}
       <main className="main-content">
