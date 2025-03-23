@@ -1,8 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql" // O el que estés usando
+  provider = "postgresql"
   url      = env("DATABASE_URL")
-} 
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement()) 
+  nombre    String   @db.VarChar(100) 
+  apellidos String   @db.VarChar(100) 
+  direccion String   @db.VarChar(255) 
+  ciudad    String   @db.VarChar(100) 
+  telefono  String   @db.VarChar(20)  
+  correo    String   @unique @db.VarChar(150) 
+  createdAt DateTime @default(now()) 
+
+  // Relación con pagos y boletos
+  pagos   Pago[]
+  boletos Boleto[]
+}
+
+model Sorteo {
+  id          Int      @id @default(autoincrement()) 
+  titulo      String   @db.VarChar(150)
+  descripcion String   
+  fechaSorteo DateTime 
+  precio      Decimal  
+  cantidadBoletos Int  
+
+  // Relación con boletos
+  boletos Boleto[]
+}
+
+model Pago {
+  id            String   @id @default(uuid()) 
+  usuarioId     Int      
+  usuario       Usuario  @relation(fields: [usuarioId], references: [id])
+  monto         Decimal
+  estado        String   // "pendiente", "completado", "fallido"
+  metodoPago    String   // "mercado_pago", "paypal", etc.
+  referencia    String   @unique 
+  fechaCreacion DateTime @default(now()) 
+  sorteoId      Int  
+  sorteo        Sorteo   @relation(fields: [sorteoId], references: [id])
+
+  // Relación con boletos
+  boletos Boleto[]
+}
+
+model Boleto {
+  id        Int     @id @default(autoincrement())
+  numero    Int     
+  usuarioId Int?    
+  usuario   Usuario? @relation(fields: [usuarioId], references: [id])
+  sorteoId  Int     
+  sorteo    Sorteo  @relation(fields: [sorteoId], references: [id])
+  pagoId    String? 
+  pago      Pago?   @relation(fields: [pagoId], references: [id])
+
+  estado    String  // "disponible", "vendido"
+
+  @@unique([sorteoId, numero]) // Para evitar números repetidos dentro del mismo sorteo
+}
+
+model Ganador {
+  id       Int     @id @default(autoincrement())
+  sorteoId Int     @unique
+  boletoId Int     @unique
+  usuarioId Int   
+
+  sorteo   Sorteo  @relation(fields: [sorteoId], references: [id])
+  boleto   Boleto  @relation(fields: [boletoId], references: [id])
+  usuario  Usuario @relation(fields: [usuarioId], references: [id])
+}

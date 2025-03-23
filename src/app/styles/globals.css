@@ -1,8 +1,10 @@
-/* Importar las fuentes personalizadas */
+/* ============================
+   Fuentes personalizadas
+============================ */
 @font-face {
   font-family: "Geist Sans";
   src: url("/fonts/Geist-Sans.woff2") format("woff2"),
-        url("/fonts/Geist-Sans.woff") format("woff");
+       url("/fonts/Geist-Sans.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -10,33 +12,46 @@
 @font-face {
   font-family: "Geist Mono";
   src: url("/fonts/Geist-Mono.woff2") format("woff2"),
-        url("/fonts/Geist-Mono.woff") format("woff");
+       url("/fonts/Geist-Mono.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
-/* Variables de fuente */
+/* ============================
+   Variables globales
+============================ */
 :root {
-  --font-geist-sans: "Geist Sans", sans-serif;
-  --font-geist-mono: "Geist Mono", monospace;
+  --font-geist-sans: "Geist Sans", Arial, sans-serif;
+  --font-geist-mono: "Geist Mono", Courier, monospace;
+  --primary-color: #007bff;
+  --primary-color-hover: #0056b3;
+  --error-color: #e74c3c;
+  --error-color-hover: #c0392b;
+  --background-color: #f0f0f0;
+  --text-color: #333;
 }
-/* Asegura que la página ocupe toda la pantalla */
+
+/* ============================
+   Configuración global
+============================ */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
+  font-family: var(--font-geist-sans);
 }
 
-/* Contenedor principal que ocupa toda la pantalla */
 .home-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Hace que el contenedor principal ocupe toda la altura */
 }
 
-/* Encabezado */
+/* ============================
+   Header
+============================ */
 .header {
   background-color: #222;
   color: white;
@@ -44,19 +59,22 @@ html, body {
   padding: 1px;
 }
 
-/* Contenedor de la imagen */
+/* ============================
+   Imagen principal
+============================ */
 .image-container {
   display: flex; 
   justify-content: center;
   padding: 20px 0; /* Espaciado para separar del header */
 }
 
-/* Imagen de la rifa */
 .rifa-image {
   border-radius: 10px;
-} 
+}
 
-/* Contenido principal */
+/* ============================
+   Contenido principal
+============================ */
 .main-content {
   flex: 1; /* Hace que el contenido principal ocupe el espacio disponible */
   display: flex;
@@ -69,16 +87,19 @@ html, body {
   text-align: center;
   font-size: 1.5rem;
   margin-top: 10px;
-  color: #333;
+  color: var(--text-color);
 }
 
+/* ============================
+   Botón de información
+============================ */
 .info-button {
   display: block;
   margin: 10px auto;
   padding: 10px 20px;
   font-size: 1rem;
   color: #fff;
-  background-color: #007bff;
+  background-color: var(--primary-color);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -86,25 +107,29 @@ html, body {
 }
 
 .info-button:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-color-hover);
 }
-/* Footer siempre abajo */
+
+/* ============================
+   Footer
+============================ */
 .footer {
   background-color: #222;
   color: white;
   text-align: center;
-  padding: 9px 0;
+  padding: 16px 0;
   width: 100%;
-  margin-top: auto; /* Empuja el footer al fondo */
+  margin-top: auto;
+  border-top: 1px solid #444; /* Borde superior sutil */
 }
+
 .contact-info {
   justify-content: center;
   gap: 0px;
-  margin-top: 10px;
-  font-size: 0.8rem;
-
+  margin-top: 10px; 
+  font-size: 0.8rem; 
 }
-/* Estilos de los enlaces del footer */
+
 .contact-info a {
   color: white;
   text-decoration: none;
@@ -114,36 +139,35 @@ html, body {
 .contact-info a:hover {
   text-decoration: underline;
 }
-
-/* Íconos sociales alineados */
+  
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 9px;
-  margin-top: 10px;
+  gap: 16px; /* Espaciado uniforme entre íconos */
+  margin-top: 12px;
 }
 
-/* Estilos de los íconos */
 .icon {
-  font-size: 22px;
-  transition: transform 0.3s ease-in-out;
+  font-size: 24px;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .icon:hover {
   transform: scale(1.2);
+  color: #ffffff; /* Cambia el color al pasar el mouse */
 }
 
-/* Colores de los íconos */
 .whatsapp { color: #25D366; }
 .facebook { color: #4952cc; }
 .instagram { color: #E4405F; }
 .telegram { color: #189fd4; }
 
-/* Estilos para la sección de compra de boletos */
+/* ============================
+   Sección de compra de boletos
+============================ */
 .rifa-container {
   text-align: center;
-  padding: 40px 20px;
-  font-family: var(--font-geist-sans);
+  padding: 32px 16px;
 }
 
 .rifa-title {
@@ -162,7 +186,7 @@ html, body {
 }
 
 .rifa-button {
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-color-hover));
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
@@ -178,12 +202,11 @@ html, body {
   box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
 }
 
-/* La opción de elegir cantidad siempre debajo de las otras */
 .cantidad-libre {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
   margin-top: 20px;
   width: 100%;
 }
@@ -198,18 +221,19 @@ html, body {
   padding: 8px;
   font-size: 1rem; 
   text-align: center;
-  border: 2px solid #007bff;
+  border: 2px solid var(--primary-color);
   border-radius: 6px;
-  border: 1px solid #ccc;
   outline: none;
   transition: 0.2s;
 }
 
 .cantidad-libre input:focus {
-  border-color: #007bff;
+  border-color: var(--primary-color-hover);
 }
 
-/* Fondo del modal */
+/* ============================
+   Modal
+============================ */
 .modal {
   position: fixed;
   top: 0;
@@ -223,10 +247,9 @@ html, body {
   z-index: 1000;
 }
 
-/* Contenedor del modal */
 .modal-content {
   background: #fff;
-  padding: 22px;
+  padding: 24px;
   border-radius: 10px;
   width: 340px;
   text-align: center;
@@ -234,7 +257,6 @@ html, body {
   animation: fadeIn 0.2s ease-in-out;
 }
 
-/* Títulos del modal */
 .modal-content h3 {
   font-size: 1.4rem;
   font-weight: bold;
@@ -242,7 +264,6 @@ html, body {
   margin-bottom: 1px;
 }
 
-/* Campos de formulario */
 .modal-content label {
   display: block;
   text-align: left;
@@ -264,22 +285,20 @@ html, body {
 }
 
 .modal-content input:focus {
-  border-color: #007bff;
+  border-color: var(--primary-color);
 }
 
-/* Mensaje de error */
 .error {
-  color: #e74c3c;
+  color: var(--error-color);
   font-size: 0.85rem;
   margin-top: -5px;
   margin-bottom: 0px;
 }
-
-/* Botón de Confirmar Compra */
+  
 .confirmar-compra {
   width: 100%;
   padding: 10px;
-  background: #007bff;
+  background: var(--primary-color);
   color: white;
   border: none;
   border-radius: 6px;
@@ -291,14 +310,13 @@ html, body {
 }
 
 .confirmar-compra:hover {
-  background: #0056b3;
+  background: var(--primary-color-hover);
 }
 
-/* Botón de Cerrar */
 .cerrar-modal {
   width: 40%;
   padding: 10px;
-  background: #e74c3c;
+  background: var(--error-color);
   color: white;
   border: none;
   border-radius: 6px;
@@ -310,76 +328,20 @@ html, body {
 }
 
 .cerrar-modal:hover {
-  background: #c0392b;
+  background: var(--error-color-hover);
 }
 
-/* Botones de opciones de compra */
-.rifa-button {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s;
-  margin: 5px;
-}
-
-.rifa-button:hover {
-  background: #0056b3;
-}
-
-/* Estilos para la cantidad libre */
-.cantidad-libre {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.cantidad-libre label {
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 5px;
-}
-
-.cantidad-libre input {
-  width: 100px;
-  text-align: center;
-  font-size: 1rem;
-  padding: 5px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  outline: none;
-  transition: 0.2s;
-}
-
-.cantidad-libre input:focus {
-  border-color: #007bff;
-}
-
-/* Animación de entrada */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-} 
-
-
+/* ============================
+    Barra de progreso
+============================ */
 .progress-container {
   width: 100%;
   height: 20px;
-  background-color: #ddd;
+  background-color: var(--background-color);
   border-radius: 10px;
   overflow: hidden;
   margin-top: 20px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar {
@@ -390,4 +352,34 @@ html, body {
   font-weight: bold;
   line-height: 20px;
   transition: width 0.5s ease-in-out;
-}                                                                             
+  border-radius: 10px 0 0 10px;
+}
+
+button:focus, input:focus, .icon:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Cambiar el nombre de modal-overlay a info-modal-overlay */
+.info-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.info-modal-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 10px;
+  width: 340px;
+  text-align: center;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.2s ease-in-out;
+}

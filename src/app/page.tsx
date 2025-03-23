@@ -18,7 +18,7 @@ export default function Home() {
       {/* 🔹 Header con logo */}
       <header className="header">
         <div className="image-container">
-          <Image src="/titulo.png" width={375} height={100} alt="Título" />
+          <Image src="/titulo.png" width={280} height={80} alt="Título" />
         </div>
       </header>
 
@@ -26,12 +26,12 @@ export default function Home() {
 
       {/* 🔹 Imagen del premio con botón de información */}
       <div className="image-container">
-        <Image src="/PS5.jpg" alt="Premio del sorteo" width={400} height={400} className="rifa-image" />
+        <Image src="/PS5.jpg" alt="Premio del sorteo" width={350} height={350} className="rifa-image" />
       </div>
 
       <div>
         <button className="modal-button" onClick={() => setShowInfoModal(true)}>
-          ℹ️ Más Información del sorteo
+          ℹ️ Más Información
         </button>
       </div>
 

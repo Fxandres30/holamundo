@@ -29,9 +29,9 @@ const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay active" onClick={onClose} role="dialog" aria-labelledby="modal-title">
+    <div className="info-modal-overlay active" onClick={onClose} role="dialog" aria-labelledby="modal-title">
       {/* Contenedor del modal */}
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="info-modal-content" onClick={(e) => e.stopPropagation()}>
         {/* Botón de cerrar */}
         <button className="modal-close" onClick={onClose} aria-label="Cerrar modal">
           ✖
