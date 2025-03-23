@@ -40,13 +40,13 @@ export default function Home() {
             <footer className="footer">
                 
                 <div className="social-icons">
-                    <a href="#" className="icon whatsapp">
+                    <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="icon whatsapp">
                         <FaWhatsapp />
                     </a>
-                    <a href="#" className="icon facebook">
+                    <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="icon facebook">
                         <FaFacebook />
                     </a>
-                    <a href="#" className="icon telegram">
+                    <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="icon telegram">
                         <FaTelegram />
                     </a>
                     <a href="https://www.instagram.com/fxandres30?igsh=MTgzbXo4cHo4cGs3cQ==" className="icon instagram">
