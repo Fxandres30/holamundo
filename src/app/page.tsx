@@ -10,7 +10,14 @@ export default function Home() {
     return (
         <div className="home-container">
             <header className="header">
-                <h1>Título. Nombre</h1>
+                <div className="image-container">
+                    <Image 
+                        src="/titulo.png" 
+                        width={372} // Ajusta el tamaño según tu imagen
+                        height={100} 
+                        alt="Título"
+                    />
+                </div>
             </header>
 
             {/* Contenedor de la imagen */}
