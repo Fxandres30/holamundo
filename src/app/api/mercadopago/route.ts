@@ -10,7 +10,7 @@ if (!ACCESS_TOKEN) {
 
 // Configurar Mercado Pago
 mercadopago.configure({ access_token: ACCESS_TOKEN });
- 
+  
 export async function POST(req: NextRequest) {
   try {
     const { cantidad, correo } = await req.json();

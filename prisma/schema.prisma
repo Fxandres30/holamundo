@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model usuarios {
+  id        Int       @id @default(autoincrement())
+  nombre    String
+  apellido  String
+  direccion String
+  ciudad    String
+  telefono  String
+  email     String    @unique
+  pagos     pagos[]
+  boletos   boletos[] // Relación inversa con boletos
+}
+
+model sorteos {
+  id               Int       @id @default(autoincrement())
+  nombre           String
+  precio           Float
+  rango_inicio     Int
+  rango_fin        Int
+  fecha            DateTime
+  estado           String
+  cantidad_boletos Int
+  boletos          boletos[]
+}
+
+model pagos {
+  id               Int       @id @default(autoincrement())
+  usuario_id       Int
+  monto            Float
+  cantidad_boletos Int
+  estado           String
+  fecha_hora       DateTime
+  metodo_pago      String
+  usuario          usuarios  @relation(fields: [usuario_id], references: [id])
+  boletos          boletos[]
+}
+
+model boletos {
+  id           Int    @id @default(autoincrement())
+  numero       Int    @unique // Evita boletos duplicados
+  sorteo_id    Int
+  comprador_id Int?
+  estado       String
+  pago_id      Int?
+
+  sorteo    sorteos   @relation(fields: [sorteo_id], references: [id])
+  comprador usuarios? @relation(fields: [comprador_id], references: [id])
+  pago      pagos?    @relation(fields: [pago_id], references: [id])
+}

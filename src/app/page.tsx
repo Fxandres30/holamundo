@@ -2,6 +2,9 @@ import Rifa from "./components/Rifa"; // Asegúrate de que la ruta sea correcta
 import Image from "next/image"; // Importar correctamente la imagen en Next.js
 import './styles/globals.css';
 import { FaWhatsapp, FaInstagram, FaFacebook, FaTelegram } from "react-icons/fa"; // Importar íconos
+import ProgressBar from "./api/boletos/ProgressBar";
+
+
 
 export default function Home() {
     return (
@@ -13,7 +16,7 @@ export default function Home() {
             {/* Contenedor de la imagen */}
             <div className="image-container">
                 <Image 
-                    src="/PS5.jpg" 
+                    src="/4K.jpg" 
                     alt="Premio del sorteo" 
                     width={400} 
                     height={300} 
@@ -21,8 +24,9 @@ export default function Home() {
                 />
             </div>
 
-            {/* Contenido principal separado */}
-            <main className="main-content">
+            <ProgressBar />
+
+                <main className="main-content">
                 <Rifa />
             </main>
 
