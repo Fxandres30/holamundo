@@ -23,10 +23,10 @@ export default function Home() {
             {/* Contenedor de la imagen */}
             <div className="image-container">
                 <Image 
-                    src="/4K.jpg" 
+                    src="/PS5.jpg" 
                     alt="Premio del sorteo" 
                     width={400} 
-                    height={300} 
+                    height={400} 
                     className="rifa-image"
                 />
             </div>
