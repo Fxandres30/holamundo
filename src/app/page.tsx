@@ -13,7 +13,7 @@ export default function Home() {
                 <div className="image-container">
                     <Image 
                         src="/titulo.png" 
-                        width={372} // Ajusta el tamaño según tu imagen
+                        width={375} // Ajusta el tamaño según tu imagen
                         height={100} 
                         alt="Título"
                     />
