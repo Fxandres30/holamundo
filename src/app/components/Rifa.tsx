@@ -131,7 +131,7 @@ export default function Rifa() {
                     </button>
                 ))}
                 <div className="cantidad-libre">
-                    <label>Elige la cantidad:</label>
+                    <label>Elegir cantidad:</label>
                     <input
                         type="number"
                         value={cantidad}
