@@ -18,7 +18,7 @@ export default function Home() {
       {/* 🔹 Header con logo */}
       <header className="header">
         <div className="image-container">
-          <Image src="/titulo.png" width={280} height={80} alt="Título" />
+          <Image src="/titulo.png" width={250} height={70} alt="Título" />
         </div>
       </header>
 
@@ -26,7 +26,7 @@ export default function Home() {
 
       {/* 🔹 Imagen del premio con botón de información */}
       <div className="image-container">
-        <Image src="/PS5.jpg" alt="Premio del sorteo" width={350} height={350} className="rifa-image" />
+        <Image src="/PS5.jpg" alt="Premio del sorteo" width={280} height={280} className="rifa-image" />
       </div>
 
       <div>
