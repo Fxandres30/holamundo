@@ -147,7 +147,7 @@ export default function Rifa() {
             {modalAbierto && (
                 <div className="modal" onClick={(e) => { if (e.target === e.currentTarget) cerrarModal(); }}>
                     <div className="modal-content">
-                        <h3>Verificación de Datos</h3>
+                        <h3>Verificar Datos</h3>
                         <form onSubmit={handleSubmit}>
                             {Object.keys(formData).map((campo) => (
                                 <div key={campo}>
