@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Preference } from "mercadopago";
 /*import { supabase } from "@/lib/supabaseClient"; */// Importar Supabase
 
+
 // Configuración de Mercado Pago
 const mercadopago = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN || "APP_USR-2608907329035760-032415-597a6ea2dd30fa45a4b4bc75c9a0d1ab-2299422857", // Token de prueba
@@ -60,11 +61,16 @@ export async function POST(req: NextRequest) {
     });
 
     console.log("✅ URL de pago generada:", response.init_point);
-    
 
-    return NextResponse.json({ success: true, url: response.init_point });
+    return NextResponse.json({
+      success: true,
+      init_point: response.init_point,
+    });
   } catch (error: unknown) {
     console.error("❌ Error creando preferencia:", error);
-    return NextResponse.json({ error: "Error al crear la preferencia" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Error al crear la preferencia" },
+      { status: 500 }
+    );
   }
 }

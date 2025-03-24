@@ -111,18 +111,15 @@ export default function Rifa() {
             });
     
             const data = await response.json();
-            console.log("Respuesta de Mercado Pago:", data);
-    
+                
             if (data.init_point) {
-                console.log("Redirigiendo a:", data.init_point);
-                window.location.href = data.init_point; // AQUÍ se hace la redirección correcta
+                cerrarModal(); // Cerrar modal antes de redirigir
+                window.location.href = data.init_point; 
             } else {
-                console.error("Error: No se recibió un link de pago.");
-                alert("Error al generar el link de pago. Inténtalo de nuevo.");
+                console.error("Error al obtener el link de pago", data);
             }
         } catch (error) {
-            console.error("Error en la solicitud a Mercado Pago:", error);
-            alert("Ocurrió un error al procesar tu compra. Intenta nuevamente.");
+            console.error("Error en la solicitud a Mercado Pago:", error); 
         }
     };
     
