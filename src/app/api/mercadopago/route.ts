@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-
+  
     // Construcción del array de `items` correctamente con `id`
     const items = [
       {
@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
     });
 
     console.log("✅ URL de pago generada:", response.init_point);
+    
 
     return NextResponse.json({ success: true, url: response.init_point });
   } catch (error: unknown) {
