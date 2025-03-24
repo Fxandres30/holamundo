@@ -1,28 +1,11 @@
 /* ============================
-   Fuentes personalizadas
+    Fuentes personalizadas
 ============================ */
-@font-face {
-  font-family: "Geist Sans";
-  src: url("/fonts/Geist-Sans.woff2") format("woff2"),
-       url("/fonts/Geist-Sans.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Geist Mono";
-  src: url("/fonts/Geist-Mono.woff2") format("woff2"),
-       url("/fonts/Geist-Mono.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
+    
 /* ============================
-   Variables globales
+    Variables globales
 ============================ */
-:root {
-  --font-geist-sans: "Geist Sans", Arial, sans-serif;
-  --font-geist-mono: "Geist Mono", Courier, monospace;
+:root { 
   --primary-color: #007bff;
   --primary-color-hover: #0056b3;
   --error-color: #e74c3c;
@@ -32,7 +15,7 @@
 }
 
 /* ============================
-   Configuración global
+    Configuración global
 ============================ */
 html, body {
   height: 100%;
@@ -50,7 +33,7 @@ html, body {
 }
 
 /* ============================
-   Header
+    Header
 ============================ */
 .header {
   background-color: #222;
@@ -60,7 +43,7 @@ html, body {
 }
 
 /* ============================
-   Imagen principal
+    Imagen principal
 ============================ */
 .image-container {
   display: flex; 
@@ -73,7 +56,7 @@ html, body {
 }
 
 /* ============================
-   Contenido principal
+    Contenido principal
 ============================ */
 .main-content {
   flex: 1; /* Hace que el contenido principal ocupe el espacio disponible */
@@ -91,7 +74,7 @@ html, body {
 }
 
 /* ============================
-   Botón de información
+    Botón de información
 ============================ */
 .info-button {
   display: block;
@@ -111,7 +94,7 @@ html, body {
 }
 
 /* ============================
-   Footer
+    Footer
 ============================ */
 .footer {
   background-color: #222;
@@ -163,7 +146,7 @@ html, body {
 .telegram { color: #189fd4; }
 
 /* ============================
-   Sección de compra de boletos
+    Sección de compra de boletos
 ============================ */
 .rifa-container {
   text-align: center;
@@ -232,7 +215,7 @@ html, body {
 }
 
 /* ============================
-   Modal
+    Modal
 ============================ */
 .modal {
   position: fixed;

@@ -1,13 +1,5 @@
-import { NextConfig } from "next";
-
-const nextConfig = {
-  output: "standalone",
-  swcMinify: true,
-  experimental: {
-    swcLoader: true,
-    swcMinify: true,
-    swcWasm: true,
-  },
+const nextConfig = { 
+  output: "standalone", 
 };
 
-export default nextConfig; 
+export default nextConfig;
