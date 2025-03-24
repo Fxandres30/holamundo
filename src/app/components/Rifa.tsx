@@ -64,7 +64,7 @@ export default function Rifa() {
     };
 
     const handleCantidadChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let nuevaCantidad = parseInt(e.target.value, 10) || cantidadMinima;
+        const nuevaCantidad = parseInt(e.target.value, 10) || cantidadMinima;
 
         if (nuevaCantidad < cantidadMinima) {
             setErrores(prev => ({ ...prev, cantidad: `Debe elegir al menos ${cantidadMinima} boletos.` }));

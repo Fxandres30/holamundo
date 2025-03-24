@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Preference } from "mercadopago";
-import { supabase } from "@/lib/supabaseClient"; // Importar Supabase
+/*import { supabase } from "@/lib/supabaseClient"; */// Importar Supabase
 
 // Configuración de Mercado Pago
 const mercadopago = new MercadoPagoConfig({
