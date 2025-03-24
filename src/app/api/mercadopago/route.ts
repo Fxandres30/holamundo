@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
     console.log("✅ URL de pago generada:", response.init_point);
 
     return NextResponse.json({ success: true, url: response.init_point });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("❌ Error creando preferencia:", error);
     return NextResponse.json({ error: "Error al crear la preferencia" }, { status: 500 });
   }
