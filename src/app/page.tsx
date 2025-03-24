@@ -30,7 +30,7 @@ export default function Home() {
       </div>
 
       <div>
-        <button className="modal-button" onClick={() => setShowInfoModal(true)}>
+        <button className="info-button" onClick={() => setShowInfoModal(true)}>
           ℹ️ Más Información
         </button>
       </div>
