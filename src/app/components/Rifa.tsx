@@ -86,7 +86,7 @@ export default function Rifa() {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!validarFormulario()) return;
-
+    
         const datosCompra: DatosPago = {
             cantidad,
             nombre: formData.nombre,
@@ -97,7 +97,9 @@ export default function Rifa() {
             correo: formData.correo,
             total: precioTotal,
         };
-        setDatosPago(datosCompra); // Guardamos temporalmente los datos
+    
+        console.log("Datos enviados a Mercado Pago:", datosCompra); // ⬅️ Asegurar que no es null
+    setDatosPago(datosCompra); // Guardamos temporalmente los datos
 
         try {
             const response = await fetch("/api/mercadopago", {
@@ -107,22 +109,23 @@ export default function Rifa() {
                 },
                 body: JSON.stringify(datosCompra),
             });
-
+    
             const data = await response.json();
-
-            if (data.success && data.init_point) {
-                cerrarModal();
-                window.location.href = data.init_point;
+            console.log("Respuesta de Mercado Pago:", data);
+    
+            if (data.init_point) {
+                console.log("Redirigiendo a:", data.init_point);
+                window.location.href = data.init_point; // AQUÍ se hace la redirección correcta
             } else {
-                console.error("Error al obtener el link de pago", data);
-                alert("Hubo un problema al generar el link de pago. Por favor, inténtalo de nuevo.");
+                console.error("Error: No se recibió un link de pago.");
+                alert("Error al generar el link de pago. Inténtalo de nuevo.");
             }
         } catch (error) {
             console.error("Error en la solicitud a Mercado Pago:", error);
-            alert("Ocurrió un error al procesar tu solicitud. Por favor, verifica tu conexión e inténtalo nuevamente.");
+            alert("Ocurrió un error al procesar tu compra. Intenta nuevamente.");
         }
     };
-
+    
     return (
         <section id="rifa" className="rifa-container">
             <h2 className="rifa-title">Elige Cantidad</h2>

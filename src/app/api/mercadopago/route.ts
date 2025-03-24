@@ -1,97 +1,69 @@
-import { NextResponse } from "next/server"; 
-import { createClient } from "@supabase/supabase-js";  
+import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Preference } from "mercadopago";
+import { supabase } from "@/lib/supabaseClient"; // Importar Supabase
 
-// ✅ Configurar Mercado Pago correctamente
+// Configuración de Mercado Pago
 const mercadopago = new MercadoPagoConfig({
-  accessToken: process.env.MP_ACCESS_TOKEN!,
+  accessToken: process.env.MP_ACCESS_TOKEN || "APP_USR-2608907329035760-032415-597a6ea2dd30fa45a4b4bc75c9a0d1ab-2299422857", // Token de prueba
 });
 
-const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
-
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    // ✅ Leer datos de la solicitud
-    const { cantidad, correo, nombre, telefono } = await req.json();
+    const body = await req.json();
+    console.log("📩 Datos recibidos en la API:", body);
 
-    // ✅ Validar datos de entrada
-    if (
-      !cantidad || cantidad <= 0 ||
-      !correo || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo) ||
-      !nombre || nombre.trim().length === 0 ||
-      !telefono || !/^\d{7,15}$/.test(telefono)
-    ) {
-      return NextResponse.json({ success: false, message: "Datos inválidos" }, { status: 400 });
+    // Validación básica
+    if (!body || !body.cantidad || !body.total || !body.correo) {
+      console.error("⚠️ Error: Datos faltantes en la petición", body);
+      return NextResponse.json(
+        { error: "Formato incorrecto: faltan datos obligatorios" },
+        { status: 400 }
+      );
     }
 
-    const precioUnitario = 1500;
-    const total = cantidad * precioUnitario;
+    // Construcción del array de `items` correctamente con `id`
+    const items = [
+      {
+        id: `boleto-${Date.now()}`, // ID único para el producto
+        title: "Boletos para el sorteo",
+        quantity: body.cantidad,
+        unit_price: body.total / body.cantidad,
+        currency_id: "COP",
+      },
+    ];
 
-    // ✅ Verificar si el usuario ya tiene una compra pendiente
-    const { data: compraPendiente, error: errorCompra } = await supabase
-      .from("compras")
-      .select("id")
-      .eq("correo", correo)
-      .eq("estado", "pendiente")
-      .single();
-
-    if (errorCompra) {
-      console.error("Error en la consulta de compra pendiente:", errorCompra);
-    }
-
-    if (compraPendiente) {
-      return NextResponse.json({ success: false, message: "Ya tienes una compra pendiente." }, { status: 400 });
-    }
-
-    // ✅ Crear la preferencia usando la clase Preference correctamente
+    // Creación de la preferencia de pago
     const preference = new Preference(mercadopago);
     const response = await preference.create({
       body: {
-        items: [
-          {
-            id: "1",
-            title: "Compra de boletos",
-            quantity: cantidad,
-            currency_id: "COP",
-            unit_price: parseFloat(precioUnitario.toFixed(2)),
-          },
-        ],
+        items, // Usamos el array correcto con `id`
         payer: {
-          email: correo,
-          name: nombre,
-          phone: { number: telefono.toString() },
+          name: body.nombre,
+          surname: body.apellidos,
+          email: body.correo,
+          phone: { number: body.telefono },
+          address: {
+            street_name: body.direccion, // ✅ Se mantiene `street_name`
+            street_number: "0", // ✅ Se agrega un valor por defecto ya que es requerido
+            zip_code: "00000", // ✅ Se agrega un valor por defecto para evitar errores
+          },
         },
+        external_reference: `compra-${Date.now()}`,
         back_urls: {
-          success: "https://tu-sitio.com/exito",
-          failure: "https://tu-sitio.com/fallo",
-          pending: "https://tu-sitio.com/pendiente",
+          success: "https://tusitio.com/success",
+          failure: "https://tusitio.com/failure",
+          pending: "https://tusitio.com/pending",
         },
         auto_return: "approved",
-        statement_descriptor: "Compra Boletos",
+        notification_url: "https://tusitio.com/api/webhook",
       },
     });
 
-    if (!response || !response.init_point) {
-      throw new Error("No se pudo generar el enlace de pago.");
-    }
+    console.log("✅ URL de pago generada:", response.init_point);
 
-    console.log("✅ Enlace de pago generado:", response.init_point);
-
-    return NextResponse.json({ success: true, link_de_pago: response.init_point });
-
-  } catch (error) {
-    console.error("❌ Error en el proceso:", error);
-    return NextResponse.json({ success: false, message: "Ocurrió un error en el servidor." }, { status: 500 });
+    return NextResponse.json({ success: true, url: response.init_point });
+  } catch (error: any) {
+    console.error("❌ Error creando preferencia:", error);
+    return NextResponse.json({ error: "Error al crear la preferencia" }, { status: 500 });
   }
-}
-
-// ✅ Habilitar CORS
-export async function OPTIONS() {
-  return NextResponse.json({}, {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
 }
