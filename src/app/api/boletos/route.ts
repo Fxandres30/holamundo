@@ -7,32 +7,37 @@ export async function POST(req: Request) {
   try {
     const { correo } = await req.json();
 
-    if (!correo) {
-      return NextResponse.json({ error: "Correo es obligatorio" }, { status: 400 });
+    // Validar formato del correo
+    if (!correo || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+      return NextResponse.json({ error: "Correo inválido." }, { status: 400 });
     }
 
-    // Buscar usuario
+    // Buscar usuario por correo
     const { data: usuario, error: usuarioError } = await supabase
       .from("usuarios")
       .select("id")
       .eq("correo", correo)
       .single();
 
-    if (!usuario) {
-      return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 });
+    if (usuarioError || !usuario) {
+      return NextResponse.json({ error: "Usuario no encontrado." }, { status: 404 });
     }
 
-    // Buscar boletos
+    // Buscar boletos del usuario en sorteos activos
     const { data: boletos, error: boletosError } = await supabase
       .from("boletos")
-      .select("numero, estado, fecha_compra")
-      .eq("usuario_id", usuario.id);
+      .select("numero, sorteos(nombre, estado), pagos(monto, fecha)")
+      .eq("usuario_id", usuario.id)
+      .eq("sorteos.estado", "activo") // Filtrar solo sorteos activos
+      .order("pagos.fecha", { ascending: false });
 
-    if (boletosError) throw boletosError;
+    if (boletosError) {
+      return NextResponse.json({ error: "Error al consultar boletos." }, { status: 500 });
+    }
 
     return NextResponse.json({ boletos });
-
   } catch (error) {
-    return NextResponse.json({ error: "Error al consultar boletos" }, { status: 500 });
+    console.error("❌ Error inesperado:", error);
+    return NextResponse.json({ error: "Error al procesar la solicitud." }, { status: 500 });
   }
 }

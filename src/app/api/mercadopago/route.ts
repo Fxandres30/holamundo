@@ -1,92 +1,91 @@
-import { NextResponse } from "next/server";
-import mercadopago from "mercadopago";
-import type { NextRequest } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { NextResponse } from "next/server"; 
+import { createClient } from "@supabase/supabase-js";  
+import { MercadoPagoConfig, Preference } from "mercadopago";
 
-// 📌 Configuración de Supabase
+// ✅ Configurar Mercado Pago correctamente
+const mercadopago = new MercadoPagoConfig({
+  accessToken: process.env.MP_ACCESS_TOKEN!,
+});
+
 const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
 
-// 📌 Configuración de Mercado Pago
-const ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN;
-if (!ACCESS_TOKEN) {
-  throw new Error("⚠️ MERCADOPAGO_ACCESS_TOKEN no está definido en el entorno.");
-}
-
-mercadopago.configure({ access_token: ACCESS_TOKEN });
-
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
+    // ✅ Leer datos de la solicitud
     const { cantidad, correo, nombre, telefono } = await req.json();
 
-    if (!cantidad || cantidad <= 0 || !correo) {
-      return NextResponse.json(
-        { success: false, message: "Datos inválidos" },
-        { status: 400 }
-      );
+    // ✅ Validar datos de entrada
+    if (
+      !cantidad || cantidad <= 0 ||
+      !correo || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo) ||
+      !nombre || nombre.trim().length === 0 ||
+      !telefono || !/^\d{7,15}$/.test(telefono)
+    ) {
+      return NextResponse.json({ success: false, message: "Datos inválidos" }, { status: 400 });
     }
 
     const precioUnitario = 1500;
     const total = cantidad * precioUnitario;
 
-    console.log("✅ Recibida solicitud de pago:", { cantidad, correo, total });
+    // ✅ Verificar si el usuario ya tiene una compra pendiente
+    const { data: compraPendiente, error: errorCompra } = await supabase
+      .from("compras")
+      .select("id")
+      .eq("correo", correo)
+      .eq("estado", "pendiente")
+      .single();
 
-    // 📌 Guardar la compra en Supabase con estado "pendiente"
-    const { data, error } = await supabase.from("compras").insert([
-      {
-        nombre,
-        correo,
-        telefono,
-        cantidad_boletos: cantidad,
-        total_pagado: total,
-        estado: "pendiente",
-      },
-    ]);
+    if (errorCompra) {
+      console.error("Error en la consulta de compra pendiente:", errorCompra);
+    }
 
-    if (error) throw error;
+    if (compraPendiente) {
+      return NextResponse.json({ success: false, message: "Ya tienes una compra pendiente." }, { status: 400 });
+    }
 
-    // 📌 Crear preferencia de pago
-    const preference = await mercadopago.preferences.create({
-      items: [
-        {
-          title: "Boleto de rifa",
-          quantity: cantidad,
-          currency_id: "COP",
-          unit_price: precioUnitario,
+    // ✅ Crear la preferencia usando la clase Preference correctamente
+    const preference = new Preference(mercadopago);
+    const response = await preference.create({
+      body: {
+        items: [
+          {
+            id: "1",
+            title: "Compra de boletos",
+            quantity: cantidad,
+            currency_id: "COP",
+            unit_price: parseFloat(precioUnitario.toFixed(2)),
+          },
+        ],
+        payer: {
+          email: correo,
+          name: nombre,
+          phone: { number: telefono.toString() },
         },
-      ],
-      payer: {
-        email: correo,
-        name: nombre,
-        phone: { 
-          area_code: "57", // Código de área predeterminado
-          number: telefono 
+        back_urls: {
+          success: "https://tu-sitio.com/exito",
+          failure: "https://tu-sitio.com/fallo",
+          pending: "https://tu-sitio.com/pendiente",
         },
+        auto_return: "approved",
+        statement_descriptor: "Compra Boletos",
       },
-      back_urls: {
-        success: "https://tudominio.com/exito",
-        failure: "https://tudominio.com/error",
-        pending: "https://tudominio.com/pendiente",
-      },
-      auto_return: "approved",
-      binary_mode: true,
-      notification_url: "https://tudominio.com/api/mercadopago-webhook",
-      external_reference: JSON.stringify({ correo, cantidad, total }),
     });
 
-    console.log("🔗 Link de pago generado:", preference.body.init_point);
+    if (!response || !response.init_point) {
+      throw new Error("No se pudo generar el enlace de pago.");
+    }
 
-    return NextResponse.json({ success: true, init_point: preference.body.init_point });
+    console.log("✅ Enlace de pago generado:", response.init_point);
+
+    return NextResponse.json({ success: true, link_de_pago: response.init_point });
 
   } catch (error) {
-    console.error("❌ Error al generar el pago:", error);
-    return NextResponse.json(
-      { success: false, message: "Error al generar el pago" },
-      { status: 500 }
-    );
+    console.error("❌ Error en el proceso:", error);
+    return NextResponse.json({ success: false, message: "Ocurrió un error en el servidor." }, { status: 500 });
   }
 }
 
-// 📌 Habilitar CORS
+// ✅ Habilitar CORS
 export async function OPTIONS() {
   return NextResponse.json({}, {
     headers: {

@@ -80,6 +80,8 @@ export default function Rifa() {
 
         setCantidad(nuevaCantidad);
     };
+    
+    console.log("Enviando datos a la API de pago:", datosPago);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -178,4 +180,4 @@ export default function Rifa() {
             )}
         </section>
     );
-}
+} 

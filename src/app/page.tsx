@@ -7,11 +7,15 @@ import { FaWhatsapp, FaInstagram, FaFacebook, FaTelegram } from "react-icons/fa"
 import Rifa from "@/app/components/Rifa"; 
 import InfoModal from "@/app/components/InfoModal";
 import '@/app/styles/globals.css';
+import VerBoletosModal from "@/app/components/VerBoletosModal";
+
 
 
 
 export default function Home() {
   const [showInfoModal, setShowInfoModal] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
 
   return (
     <div className="home-container">
@@ -38,6 +42,13 @@ export default function Home() {
       {/* 🔹 Modal de información */}
       <InfoModal isOpen={showInfoModal} onClose={() => setShowInfoModal(false)} />
   
+
+      <div>
+      <button onClick={() => setModalOpen(true)} className="boton-ver-boletos">
+        Ver mis números
+      </button>
+      {modalOpen && <VerBoletosModal onClose={() => setModalOpen(false)} />}
+    </div>
 
       {/* 🔹 Contenido principal */}
       <main className="main-content">
