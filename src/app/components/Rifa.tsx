@@ -87,7 +87,7 @@ export default function Rifa() {
         event.preventDefault();
         if (!validarFormulario()) return;
     
-        const datosCompra: DatosPago = {
+        const datosPago: DatosPago = {
             cantidad,
             nombre: formData.nombre,
             apellidos: formData.apellidos,
@@ -98,8 +98,8 @@ export default function Rifa() {
             total: precioTotal,
         };
     
-        console.log("Datos enviados a Mercado Pago:", datosCompra); // ⬅️ Asegurar que no es null
-    setDatosPago(datosCompra); // Guardamos temporalmente los datos
+        console.log("Datos enviados a Mercado Pago:", datosPago); // ⬅️ Asegurar que no es null
+    setDatosPago(datosPago); // Guardamos temporalmente los datos
 
         try {
             const response = await fetch("/api/mercadopago", {
@@ -107,7 +107,7 @@ export default function Rifa() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(datosCompra),
+                body: JSON.stringify(datosPago),
             });
     
             const data = await response.json();

@@ -1,54 +1,69 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = "https://mlvijtnpgaxzsqanjhqi.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sdmlqdG5wZ2F4enNxYW5qaHFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA4NTczMTYsImV4cCI6MjA1NjQzMzMxNn0.cM4FH13smbAg1ptLKFZD57o62GEXJgA9-6ipPa5fjUE"; // Usa la clave de servicio de Supabase
-const supabase = createClient(supabaseUrl, supabaseKey);
+// ⚡ Cargar credenciales de Supabase
+const supabaseUrl = process.env.SUPABASE_URL!;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-const mercadoPagoToken = "APP_USR-TU_ACCESS_TOKEN"; // Reemplaza con tu Access Token de Mercado Pago
+// ⚡ Cargar credenciales de Mercado Pago
+const mercadoPagoToken = process.env.MP_ACCESS_TOKEN!;
 
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const paymentId = body.data.id;
+        console.log("📩 Webhook recibido:", body); // 🔍 Ver qué llega
 
-        // 🔹 Verificar el pago en Mercado Pago
-        const paymentResponse = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-            headers: { Authorization: `Bearer ${mercadoPagoToken}` },
-        });
+        const { topic, id } = body;
 
-        const paymentData = await paymentResponse.json();
-        if (!paymentData || paymentData.status !== "approved") {
-            return NextResponse.json({ success: false, message: "Pago no aprobado" });
+        if (!topic || !id) {
+            console.error("❌ Notificación inválida: faltan datos", body);
+            return NextResponse.json({ success: false, message: "Notificación inválida" }, { status: 400 });
         }
 
-        // 🔹 Extraer datos necesarios
-        const email = paymentData.payer.email;
-        const nombre = paymentData.payer.first_name || "Desconocido";
-        const apellido = paymentData.payer.last_name || "";
-        const telefono = paymentData.payer.phone?.number || "";
-        const monto = paymentData.transaction_amount;
-        const cantidad_boletos = paymentData.metadata?.cantidad_boletos || 1;
-        const sorteo_id = paymentData.metadata?.sorteo_id;
+        // 📌 Si el topic es "payment", obtener detalles del pago
+        let paymentData = null;
 
-        // 🔹 Registrar solo los datos en Supabase
-        const { data: pago, error: errorPago } = await supabase
-            .from("pagos")
-            .insert([{ nombre, apellido, correo: email, telefono, monto, cantidad_boletos, sorteo_id, estado: "aprobado" }])
-            .select("id")
-            .single();
+        if (topic === "payment") {
+            const paymentResponse = await fetch(`https://api.mercadopago.com/v1/payments/${id}`, {
+                headers: { Authorization: `Bearer ${mercadoPagoToken}` },
+            });
 
-            if (pago) {
-                console.log("Pago registrado con ID:", pago.id);
-            } 
+            paymentData = await paymentResponse.json();
+            console.log("🔍 Datos de Mercado Pago:", paymentData);
 
-        if (errorPago) {
-            throw new Error("Error guardando pago en Supabase");
+            if (!paymentData || paymentData.status !== "approved") {
+                console.error("❌ Pago no aprobado o datos inválidos:", paymentData);
+                return NextResponse.json({ success: false, message: "Pago no aprobado" }, { status: 400 });
+            }
+        } else {
+            console.error("❌ Tipo de notificación no manejado:", topic);
+            return NextResponse.json({ success: false, message: "Notificación no manejada" }, { status: 400 });
         }
 
-        return NextResponse.json({ success: true, message: "Pago registrado en Supabase, se procesará automáticamente" });
+        // 📌 Extraer datos y guardar en Supabase
+        const pago = {
+            nombre: paymentData.payer?.first_name || "Desconocido",
+            correo: paymentData.payer?.email || "No registrado",
+            monto: paymentData.transaction_amount,
+            referencia_externa: paymentData.external_reference || null,
+            estado: paymentData.status,
+        };
+
+        console.log("💾 Guardando en Supabase:", pago);
+
+        const { data, error } = await supabase.from("pagos").insert([pago]).select("id").single();
+
+        if (error) {
+            console.error("❌ Error al guardar el pago en Supabase:", error);
+            return NextResponse.json({ success: false, message: "Error al guardar el pago" }, { status: 500 });
+        }
+
+        console.log("✅ Pago guardado con éxito. ID del pago:", data.id);
+        return NextResponse.json({ success: true, message: "Notificación procesada con éxito" });
+
     } catch (error) {
-        console.error("Error en webhook:", error);
-        return NextResponse.json({ success: false, message: "Error procesando el pago" }, { status: 500 });
+        console.error("❌ Error procesando la notificación:", error);
+        return NextResponse.json({ success: false, message: "Error procesando la notificación" }, { status: 500 });
     }
 }

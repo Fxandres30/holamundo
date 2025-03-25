@@ -1,31 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Preference } from "mercadopago";
-/*import { supabase } from "@/lib/supabaseClient"; */// Importar Supabase
+import { supabase } from "@/lib/supabaseClient";
 
-
-// Configuración de Mercado Pago
+// Configurar Mercado Pago con el token
 const mercadopago = new MercadoPagoConfig({
-  accessToken: process.env.MP_ACCESS_TOKEN || "APP_USR-2608907329035760-032415-597a6ea2dd30fa45a4b4bc75c9a0d1ab-2299422857", // Token de prueba
+  accessToken: process.env.MP_ACCESS_TOKEN || "TU_ACCESS_TOKEN_AQUI",
 });
 
+const { data, error } = await supabase.from("pagos").select("*");
+
+if (error) {
+    console.error("Error al consultar la base de datos:", error);
+} else {
+    console.log("Datos obtenidos:", data);
+}
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     console.log("📩 Datos recibidos en la API:", body);
 
     // Validación básica
-    if (!body || !body.cantidad || !body.total || !body.correo) {
+    if (!body?.cantidad || !body?.total || !body?.correo) {
       console.error("⚠️ Error: Datos faltantes en la petición", body);
       return NextResponse.json(
         { error: "Formato incorrecto: faltan datos obligatorios" },
         { status: 400 }
       );
     }
-  
-    // Construcción del array de `items` correctamente con `id`
+
+    // Creación del array de items
     const items = [
       {
-        id: `boleto-${Date.now()}`, // ID único para el producto
+        id: `boleto-${Date.now()}`,
         title: "Boletos para el sorteo",
         quantity: body.cantidad,
         unit_price: body.total / body.cantidad,
@@ -33,20 +39,20 @@ export async function POST(req: NextRequest) {
       },
     ];
 
-    // Creación de la preferencia de pago
+    // Creación de la preferencia
     const preference = new Preference(mercadopago);
     const response = await preference.create({
       body: {
-        items, // Usamos el array correcto con `id`
+        items,
         payer: {
-          name: body.nombre,
-          surname: body.apellidos,
+          name: body.nombre || "Cliente",
+          surname: body.apellidos || "",
           email: body.correo,
-          phone: { number: body.telefono },
+          phone: { number: body.telefono || "" },
           address: {
-            street_name: body.direccion, // ✅ Se mantiene `street_name`
-            street_number: "0", // ✅ Se agrega un valor por defecto ya que es requerido
-            zip_code: "00000", // ✅ Se agrega un valor por defecto para evitar errores
+            street_name: body.direccion || "Sin dirección",
+            street_number: "0",
+            zip_code: "00000",
           },
         },
         external_reference: `compra-${Date.now()}`,
@@ -56,17 +62,17 @@ export async function POST(req: NextRequest) {
           pending: "https://tusitio.com/pending",
         },
         auto_return: "approved",
-        "notification_url": "https://holamundo-two.vercel.app",
+        notification_url: "https://holamundo-two.vercel.app/api/mercadopago/webhook",
       },
     });
 
-    console.log("✅ URL de pago generada:", response.init_point);
+    console.log("✅ URL de pago generada:", response.sandbox_init_point || response.init_point);
 
     return NextResponse.json({
       success: true,
-      init_point: response.init_point,
+      init_point: response.sandbox_init_point || response.init_point,
     });
-  } catch (error: unknown) {
+  } catch (error) {
     console.error("❌ Error creando preferencia:", error);
     return NextResponse.json(
       { error: "Error al crear la preferencia" },
