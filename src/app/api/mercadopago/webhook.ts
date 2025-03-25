@@ -1,69 +1,58 @@
-import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { NextApiRequest, NextApiResponse } from "next";
+import axios from "axios"; // 📌 Asegúrate de instalar axios con: npm install axios
+import { createClient } from "@supabase/supabase-js"; // 📌 Si usas Supabase
 
-// ⚡ Cargar credenciales de Supabase
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+// 🔑 Agrega tu Access Token de Mercado Pago
+const MERCADO_PAGO_ACCESS_TOKEN = "TU_ACCESS_TOKEN"; 
 
-// ⚡ Cargar credenciales de Mercado Pago
-const mercadoPagoToken = process.env.MP_ACCESS_TOKEN!;
+// 📌 Configura tu base de datos (ejemplo con Supabase)
+const supabase = createClient("TU_SUPABASE_URL", "TU_SUPABASE_ANON_KEY");
 
-export async function POST(req: NextRequest) {
-    try {
-        const body = await req.json();
-        console.log("📩 Webhook recibido:", body); // 🔍 Ver qué llega
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Método no permitido" });
+  }
 
-        const { topic, id } = body;
+  console.log("Webhook recibido:", req.body);
 
-        if (!topic || !id) {
-            console.error("❌ Notificación inválida: faltan datos", body);
-            return NextResponse.json({ success: false, message: "Notificación inválida" }, { status: 400 });
-        }
+  // 🔍 Verifica que la solicitud contiene un ID de pago
+  if (!req.body || !req.body.data?.id) {
+    return res.status(400).json({ error: "Datos faltantes en el webhook" });
+  }
 
-        // 📌 Si el topic es "payment", obtener detalles del pago
-        let paymentData = null;
+  const paymentId = req.body.data.id; // ID del pago recibido
 
-        if (topic === "payment") {
-            const paymentResponse = await fetch(`https://api.mercadopago.com/v1/payments/${id}`, {
-                headers: { Authorization: `Bearer ${mercadoPagoToken}` },
-            });
+  try {
+    // ✅ 1. Consultar Mercado Pago para obtener los detalles del pago
+    const paymentResponse = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+      headers: {
+        Authorization: `Bearer ${MERCADO_PAGO_ACCESS_TOKEN}`
+      }
+    });
 
-            paymentData = await paymentResponse.json();
-            console.log("🔍 Datos de Mercado Pago:", paymentData);
+    const paymentData = paymentResponse.data;
+    console.log("📌 Datos completos del pago:", paymentData);
 
-            if (!paymentData || paymentData.status !== "approved") {
-                console.error("❌ Pago no aprobado o datos inválidos:", paymentData);
-                return NextResponse.json({ success: false, message: "Pago no aprobado" }, { status: 400 });
-            }
-        } else {
-            console.error("❌ Tipo de notificación no manejado:", topic);
-            return NextResponse.json({ success: false, message: "Notificación no manejada" }, { status: 400 });
-        }
+    // ✅ 2. Guardar en la base de datos (ejemplo con Supabase)
+    const { error } = await supabase.from("pagos").insert([
+      {
+        id_pago: paymentData.id,
+        estado: paymentData.status,
+        metodo_pago: paymentData.payment_method_id,
+        monto: paymentData.transaction_amount,
+        email_comprador: paymentData.payer.email,
+        fecha_pago: paymentData.date_created,
+      }
+    ]);
 
-        // 📌 Extraer datos y guardar en Supabase
-        const pago = {
-            nombre: paymentData.payer?.first_name || "Desconocido",
-            correo: paymentData.payer?.email || "No registrado",
-            monto: paymentData.transaction_amount,
-            referencia_externa: paymentData.external_reference || null,
-            estado: paymentData.status,
-        };
-
-        console.log("💾 Guardando en Supabase:", pago);
-
-        const { data, error } = await supabase.from("pagos").insert([pago]).select("id").single();
-
-        if (error) {
-            console.error("❌ Error al guardar el pago en Supabase:", error);
-            return NextResponse.json({ success: false, message: "Error al guardar el pago" }, { status: 500 });
-        }
-
-        console.log("✅ Pago guardado con éxito. ID del pago:", data.id);
-        return NextResponse.json({ success: true, message: "Notificación procesada con éxito" });
-
-    } catch (error) {
-        console.error("❌ Error procesando la notificación:", error);
-        return NextResponse.json({ success: false, message: "Error procesando la notificación" }, { status: 500 });
+    if (error) {
+      console.error("❌ Error al guardar en la base de datos:", error);
+      return res.status(500).json({ error: "Error al guardar en la base de datos" });
     }
+
+    return res.status(200).json({ message: "Pago guardado correctamente" });
+  } catch (error) {
+    console.error("❌ Error al obtener los detalles del pago:", error);
+    return res.status(500).json({ error: "Error al obtener los detalles del pago" });
+  }
 }

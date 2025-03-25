@@ -1,26 +1,32 @@
 import { useState } from "react";
 
+interface Boleto {
+  id: number;
+  numero: string;
+  precio: number;
+}
+
 export default function useFetchBoletos() {
-  const [boletos, setBoletos] = useState([]);
+  const [boletos, setBoletos] = useState<Boleto[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
-  async function fetchBoletos(input: string) {
+  const fetchBoletos = async (input: string) => {
     setLoading(true);
-    setError("");
-
+    setError(null);
     try {
-      const response = await fetch(`/api/boletos?input=${input}`);
+      const response = await fetch(`/api/boletos?query=${input}`);
+      if (!response.ok) {
+        throw new Error("Error al buscar boletos");
+      }
       const data = await response.json();
-
-      if (!response.ok) throw new Error(data.error || "Error al obtener boletos");
-      setBoletos(data);
+      setBoletos(data.boletos);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error desconocido");
+      setError((err as Error).message);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return { boletos, loading, error, fetchBoletos };
 }

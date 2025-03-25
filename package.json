@@ -8,9 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
-    "@mercadopago/sdk-react": "^1.0.0", 
+    "@mercadopago/sdk-react": "^1.0.0",
     "@prisma/client": "^6.5.0",
-    "@supabase/supabase-js": "^2.49.1",
+    "@supabase/supabase-js": "^2.49.3",
     "autoprefixer": "^10.4.21",
     "aws-sdk": "^2.1692.0",
     "axios": "^1.8.4",

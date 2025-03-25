@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
           pending: "https://tusitio.com/pending",
         },
         auto_return: "approved",
-        notification_url: "https://holamundo-two.vercel.app/api/mercadopago/webhook",
+        notification_url: "https://typically-ir-mistress-something.trycloudflare.com",
       },
     });
 

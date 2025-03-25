@@ -16,7 +16,7 @@ interface DatosPago {
 export default function Rifa() {
     const [cantidad, setCantidad] = useState(10);
     const [modalAbierto, setModalAbierto] = useState(false);
-    const [datosPago, setDatosPago] = useState<DatosPago | null>(null); // Define el tipo de datosPago
+    const [datosPago, setDatosPago] = useState<DatosPago | null>(null);
     const [formData, setFormData] = useState({
         nombre: "",
         apellidos: "",
@@ -33,9 +33,7 @@ export default function Rifa() {
     const precioTotal = useMemo(() => cantidad * precioUnitario, [cantidad, precioUnitario]);
 
     useEffect(() => {
-        if (!modalAbierto) {
-            setErrores({});
-        }
+        if (!modalAbierto) setErrores({});
     }, [modalAbierto]);
 
     const validarFormulario = () => {
@@ -45,9 +43,9 @@ export default function Rifa() {
         if (!formData.apellidos.trim()) nuevosErrores.apellidos = "Los apellidos son obligatorios";
         if (!formData.direccion.trim()) nuevosErrores.direccion = "La dirección es obligatoria";
         if (!formData.ciudad.trim()) nuevosErrores.ciudad = "La ciudad es obligatoria";
-        if (!formData.telefono.trim() || !/^[0-9]{7,15}$/.test(formData.telefono))
+        if (!/^[0-9]{7,15}$/.test(formData.telefono))
             nuevosErrores.telefono = "Teléfono inválido";
-        if (!formData.correo.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.correo))
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.correo))
             nuevosErrores.correo = "Correo inválido";
         if (cantidad < cantidadMinima || cantidad > cantidadMaxima)
             nuevosErrores.cantidad = `Debe elegir entre ${cantidadMinima} y ${cantidadMaxima} boletos.`;
@@ -64,29 +62,15 @@ export default function Rifa() {
     };
 
     const handleCantidadChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const nuevaCantidad = parseInt(e.target.value, 10) || cantidadMinima;
-
-        if (nuevaCantidad < cantidadMinima) {
-            setErrores(prev => ({ ...prev, cantidad: `Debe elegir al menos ${cantidadMinima} boletos.` }));
-        } else if (nuevaCantidad > cantidadMaxima) {
-            setErrores(prev => ({ ...prev, cantidad: `No puede elegir más de ${cantidadMaxima} boletos.` }));
-        } else {
-            setErrores(prev => {
-                const nuevosErrores = { ...prev };
-                delete nuevosErrores.cantidad;
-                return nuevosErrores;
-            });
-        }
-
-        setCantidad(nuevaCantidad);
+        const nuevaCantidad = parseInt(e.target.value, 10);
+        if (isNaN(nuevaCantidad)) return;
+        setCantidad(Math.min(Math.max(nuevaCantidad, cantidadMinima), cantidadMaxima));
     };
-    
-    console.log("Enviando datos a la API de pago:", datosPago);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!validarFormulario()) return;
-    
+
         const datosPago: DatosPago = {
             cantidad,
             nombre: formData.nombre,
@@ -97,32 +81,33 @@ export default function Rifa() {
             correo: formData.correo,
             total: precioTotal,
         };
-    
-        console.log("Datos enviados a Mercado Pago:", datosPago); // ⬅️ Asegurar que no es null
-    setDatosPago(datosPago); // Guardamos temporalmente los datos
+
+        console.log("Datos enviados a Mercado Pago:", datosPago);
+        setDatosPago(datosPago);
 
         try {
             const response = await fetch("/api/mercadopago", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(datosPago),
             });
-    
+
+            if (!response.ok) {
+                throw new Error(`Error en la respuesta del servidor: ${response.statusText}`);
+            }
+
             const data = await response.json();
-                
             if (data.init_point) {
-                cerrarModal(); // Cerrar modal antes de redirigir
-                window.location.href = data.init_point; 
+                cerrarModal();
+                window.location.href = data.init_point;
             } else {
                 console.error("Error al obtener el link de pago", data);
             }
         } catch (error) {
-            console.error("Error en la solicitud a Mercado Pago:", error); 
+            console.error("Error en la solicitud a Mercado Pago:", error);
         }
     };
-    
+
     return (
         <section id="rifa" className="rifa-container">
             <h2 className="rifa-title">Elige Cantidad</h2>
@@ -151,17 +136,24 @@ export default function Rifa() {
                     <div className="modal-content">
                         <h3>Verificar Datos</h3>
                         <form onSubmit={handleSubmit}>
-                            {Object.keys(formData).map((campo) => (
-                                <div key={campo}>
-                                    <label htmlFor={campo}>{campo.charAt(0).toUpperCase() + campo.slice(1)}</label>
+                            {[
+                                { label: "Nombre", name: "nombre" },
+                                { label: "Apellidos", name: "apellidos" },
+                                { label: "Dirección", name: "direccion" },
+                                { label: "Ciudad", name: "ciudad" },
+                                { label: "Teléfono", name: "telefono" },
+                                { label: "Correo", name: "correo" }
+                            ].map(({ label, name }) => (
+                                <div key={name}>
+                                    <label htmlFor={name}>{label}</label>
                                     <input
-                                        id={campo}
+                                        id={name}
                                         type="text"
-                                        name={campo}
-                                        value={formData[campo as keyof typeof formData]}
+                                        name={name}
+                                        value={formData[name as keyof typeof formData]}
                                         onChange={handleChange}
                                     />
-                                    {errores[campo] && <p className="error">{errores[campo]}</p>}
+                                    {errores[name] && <p className="error">{errores[name]}</p>}
                                 </div>
                             ))}
                             <p>Total a pagar: ${precioTotal.toLocaleString()} COP</p>
@@ -180,4 +172,4 @@ export default function Rifa() {
             )}
         </section>
     );
-} 
+}
