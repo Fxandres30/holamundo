@@ -51,12 +51,12 @@ export async function POST(req: NextRequest) {
         },
         external_reference: `compra-${Date.now()}`,
         back_urls: {
-          success: "https://tusitio.com/success",
+          success: "https://holamundo-two.vercel.app",
           failure: "https://tusitio.com/failure",
           pending: "https://tusitio.com/pending",
         },
         auto_return: "approved",
-        notification_url: "https://tusitio.com/api/webhook",
+        "notification_url": "https://holamundo-two.vercel.app",
       },
     });
 
