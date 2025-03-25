@@ -38,6 +38,10 @@ export async function POST(req: NextRequest) {
             .select("id")
             .single();
 
+            if (pago) {
+                console.log("Pago registrado con ID:", pago.id);
+            } 
+
         if (errorPago) {
             throw new Error("Error guardando pago en Supabase");
         }
